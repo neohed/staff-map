@@ -15,4 +15,3 @@ https://bilalalghazi.medium.com/deploying-react-node-js-application-to-amazon-ec
 https://developers.google.com/maps/documentation/javascript/layers
 
 https://martinfowler.com/articles/modularizing-react-apps.html
-
