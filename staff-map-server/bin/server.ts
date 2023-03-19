@@ -60,7 +60,9 @@ function onError(error: NodeJS.ErrnoException): void {
         throw error;
     }
 
-    const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+    const bind = typeof port === 'string'
+        ? `Pipe ${port}`
+        : `Port ${port}`;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
