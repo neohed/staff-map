@@ -16,7 +16,9 @@ import {
 
 // @ts-ignore
 import pinIcon from '../assets/pin.svg'
-import googleMaps = google.maps;
+//import googleMaps = google.maps;
+//import type * as googleMaps from "@types/google.maps"
+//import type * as googleMaps from "google.maps"
 
 const FLIGHT_PLAN_COORDS = [
     { lat: 37.772, lng: -122.214 },
@@ -58,22 +60,22 @@ const ExampleShapesPropTypes = {
     }).isRequired,
 }
 
-const mapCenter: googleMaps.LatLngLiteral = {
+const mapCenter = {
     lat: 0,
     lng: -180,
 }
 
-const MARKER_POSITION: googleMaps.LatLngLiteral = {
+const MARKER_POSITION = {
     lat: 37.772,
     lng: -122.214,
 }
 
-const OVERLAY_VIEW_POSITION: googleMaps.LatLngLiteral = {
+const OVERLAY_VIEW_POSITION = {
     lat: 35.772,
     lng: -120.214,
 }
 
-const INFO_WINDOW_POSITION: googleMaps.LatLngLiteral = {
+const INFO_WINDOW_POSITION = {
     lat: 33.772,
     lng: -117.214,
 }
@@ -106,7 +108,7 @@ const sfPolygonOptions = {
     zIndex: 1,
 }
 
-const circleOptions: googleMaps.CircleOptions = {
+const circleOptions = {
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
     strokeWeight: 2,
