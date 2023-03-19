@@ -1,17 +1,17 @@
-import createError from 'http-errors'
-import express from 'express'
-//const path = require('path'
+import express, { Express, Request, Response, NextFunction } from 'express'
 import cookieParser from 'cookie-parser'
 import morganLogger from 'morgan'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import helmet from 'helmet'
+
 //import initRoutes from './routes/index'
 //import {logger} from './middleware/logger'
+
 require('dotenv').config();
 
-const app = express();
+const app: Express = express();
 
 app.use(helmet());
 app.use(cors());
@@ -24,23 +24,14 @@ app.use(compression()); //Compress all routes
 
 //initRoutes(app);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    //logger.info('Here be dragons. Route not found')
-    next(createError(404));
-});
-
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
     //logger.error(err)
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    //res.render('error');
-    res.json({error: err})
+    const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+    res.status(statusCode).json({
+        message: err.message,
+        stack: process.env.NODE_ENV === 'production' ? undefined : err.stack
+    })
 });
 
 export default app;
