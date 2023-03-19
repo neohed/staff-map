@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-import app from '../server';
-import http = require('http');
+import app from '../app'
+import * as http from 'http'
 
 /**
  * Get port from environment and store in Express.
@@ -55,23 +55,21 @@ function normalizePort(val: string) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error: NodeJS.ErrnoException): void {
     if (error.syscall !== 'listen') {
         throw error;
     }
 
-    const bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
+    const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            console.error(`${bind} requires elevated privileges`);
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            console.error(`${bind} is already in use`);
             process.exit(1);
             break;
         default:
@@ -87,7 +85,7 @@ function onListening() {
     const address = server.address();
     const bind = typeof address === 'string'
         ? 'pipe ' + address
-        : 'port ' + address.port;
+        : 'port ' + address?.port;
 
     //TODO Use logger middleware
     console.error('Listening on ' + bind);
