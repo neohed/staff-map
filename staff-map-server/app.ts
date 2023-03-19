@@ -1,10 +1,12 @@
-import express, { Express, Request, Response, NextFunction } from 'express'
+import express from 'express'
+import type { Express } from 'express'
 import cookieParser from 'cookie-parser'
 import morganLogger from 'morgan'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import helmet from 'helmet'
+import {errorHandler} from './middleware/express-error-handlers'
 
 //import initRoutes from './routes/index'
 //import {logger} from './middleware/logger'
@@ -24,14 +26,6 @@ app.use(compression()); //Compress all routes
 
 //initRoutes(app);
 
-// error handler
-app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-    //logger.error(err)
-    const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-    res.status(statusCode).json({
-        message: err.message,
-        stack: process.env.NODE_ENV === 'production' ? undefined : err.stack
-    })
-});
+app.use(errorHandler);
 
 export default app;
