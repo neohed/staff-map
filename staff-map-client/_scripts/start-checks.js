@@ -8,9 +8,9 @@ const log = {
 }
 
 const gmailApiKeyName = 'REACT_APP_GOOGLE_MAPS_API_KEY';
-const gmailApiKey = process.env[gmailApiKeyName];
+const gmailApiKeyValue = process.env[gmailApiKeyName];
 
-if (gmailApiKey === undefined || gmailApiKey === '') {
+if (gmailApiKeyValue === undefined || gmailApiKeyValue === '') {
     log.error(`Error! Environment variable: "${gmailApiKeyName}" in file: ".env.local" not found.`);
     log.warn('Please ensure both the ".env.local" and API key exist.');
     log.warn('For help creating a Google maps API key, see section "Configuring Google Maps API Key" in "README.md".\n\n');
