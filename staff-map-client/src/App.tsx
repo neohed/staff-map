@@ -1,7 +1,13 @@
 import React from 'react';
+/*
 import SimpleMap from "./components/SimpleMap";
 import ShapesMap from "./components/ShapesMap";
+import BicyclingMap from "./components/BicyclingMap";
+import MapData from "./components/MapData";
+import OverlayMap from "./components/OverlayMap";
+ */
 import type {MapStyles} from "./components/types";
+import MapTransit from "./components/MapTransit";
 import './App.css';
 
 const mapProps: MapStyles = {
@@ -14,7 +20,7 @@ const mapProps: MapStyles = {
 function App() {
   return (
     <div className="App">
-        <ShapesMap styles={mapProps} />
+        <MapTransit styles={mapProps} />
     </div>
   );
 }
