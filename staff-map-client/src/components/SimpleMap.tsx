@@ -2,6 +2,7 @@ import React from 'react'
 import type {MapProps} from "./types";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import MapLoading from "./MapLoading";
+import envVars from "../lib/env-vars";
 
 const center = {
     lat: 51.50052933987512,
@@ -11,7 +12,7 @@ const center = {
 function MyComponent({ styles }: MapProps) {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyDYtz7RHNR73l9UljUpzRE2vFdCMXJvTeA"
+        googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY
     })
 
     /*
