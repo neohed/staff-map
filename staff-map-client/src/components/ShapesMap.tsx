@@ -19,9 +19,6 @@ import envVars from "../lib/env-vars";
 
 // @ts-ignore
 import pinIcon from '../assets/pin.svg'
-//import googleMaps = google.maps;
-//import type * as googleMaps from "@types/google.maps"
-//import type * as googleMaps from "google.maps"
 
 const FLIGHT_PLAN_COORDS = [
     { lat: 37.772, lng: -122.214 },
