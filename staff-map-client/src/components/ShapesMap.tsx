@@ -4,6 +4,7 @@ import { memo, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
     GoogleMap,
+    useJsApiLoader,
     PolylineF,
     PolygonF,
     RectangleF,
@@ -16,6 +17,7 @@ import {
 
 // @ts-ignore
 import pinIcon from '../assets/pin.svg'
+import MapLoading from "./MapLoading";
 //import googleMaps = google.maps;
 //import type * as googleMaps from "@types/google.maps"
 //import type * as googleMaps from "google.maps"
@@ -141,6 +143,10 @@ const infoWindowStyle = {
 }
 
 function ExampleShapes({ styles }: MapProps): JSX.Element {
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: "AIzaSyDYtz7RHNR73l9UljUpzRE2vFdCMXJvTeA"
+    })
     const [polylineVisible, setPolylineVisible] = useState(true)
     const [polylineOptions, setPolylineOptions] = useState(
         JSON.stringify(POLYLINE_OPTIONS)
@@ -165,6 +171,10 @@ function ExampleShapes({ styles }: MapProps): JSX.Element {
             return POLYLINE_OPTIONS
         }
     }, [polylineOptions])
+
+    if (!isLoaded) {
+        return <MapLoading />
+    }
 
     return (
         <div className='map'>

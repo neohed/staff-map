@@ -1,6 +1,7 @@
 import React from 'react'
 import type {MapProps} from "./types";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import MapLoading from "./MapLoading";
 
 const center = {
     lat: 51.50052933987512,
@@ -29,7 +30,11 @@ function MyComponent({ styles }: MapProps) {
     }, [])
      */
 
-    return isLoaded ? (
+    if (!isLoaded) {
+        return <MapLoading />
+    }
+
+    return (
         <GoogleMap
             mapContainerStyle={styles.container}
             center={center}
@@ -43,7 +48,7 @@ function MyComponent({ styles }: MapProps) {
                */ }
             <></>
         </GoogleMap>
-    ) : <></>
+    )
 }
 
 export default React.memo(MyComponent)

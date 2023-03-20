@@ -14,7 +14,7 @@ const mapProps: MapStyles = {
 function App() {
   return (
     <div className="App">
-        <SimpleMap styles={mapProps} />
+        <ShapesMap styles={mapProps} />
     </div>
   );
 }
