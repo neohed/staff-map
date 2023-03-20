@@ -13,7 +13,7 @@ const gmailApiKeyValue = process.env[gmailApiKeyName];
 if (gmailApiKeyValue === undefined || gmailApiKeyValue === '') {
     log.error(`Error! Environment variable: "${gmailApiKeyName}" in file: ".env.local" not found.`);
     log.warn('Please ensure both the ".env.local" and API key exist.');
-    log.warn('For help creating a Google maps API key, see section "Configuring Google Maps API Key" in "README.md".\n\n');
+    log.info('For help creating a Google maps API key, see section "Configuring Google Maps API Key" in "README.md".\n\n');
 
     process.exit(1) // error
 } else {
