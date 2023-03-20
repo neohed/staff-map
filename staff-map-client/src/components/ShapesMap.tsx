@@ -1,5 +1,5 @@
 import type { ChangeEventHandler } from 'react'
-import type {MapStyles} from "./types";
+import type {MapProps} from "./types";
 import { memo, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -140,11 +140,7 @@ const infoWindowStyle = {
     padding: 15,
 }
 
-interface Props {
-    styles: MapStyles;
-}
-
-function ExampleShapes({ styles }: Props): JSX.Element {
+function ExampleShapes({ styles }: MapProps): JSX.Element {
     const [polylineVisible, setPolylineVisible] = useState(true)
     const [polylineOptions, setPolylineOptions] = useState(
         JSON.stringify(POLYLINE_OPTIONS)

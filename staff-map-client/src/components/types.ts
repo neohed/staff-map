@@ -4,6 +4,11 @@ interface MapStyles {
     container: CSSProperties | undefined
 }
 
+interface MapProps {
+    styles: MapStyles;
+}
+
 export type {
-    MapStyles
+    MapStyles,
+    MapProps
 }

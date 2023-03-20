@@ -1,17 +1,13 @@
 import React from 'react'
+import type {MapProps} from "./types";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-
-const containerStyle = {
-    width: '1200px',
-    height: '800px'
-};
 
 const center = {
     lat: 51.50052933987512,
     lng: -0.12615771706025705
 };
 
-function MyComponent() {
+function MyComponent({ styles }: MapProps) {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyDYtz7RHNR73l9UljUpzRE2vFdCMXJvTeA"
@@ -35,7 +31,7 @@ function MyComponent() {
 
     return isLoaded ? (
         <GoogleMap
-            mapContainerStyle={containerStyle}
+            mapContainerStyle={styles.container}
             center={center}
             zoom={10}
             onLoad={m => console.log(m)}
