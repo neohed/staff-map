@@ -9,6 +9,10 @@ const center = {
     lng: -0.12615771706025705
 };
 
+const options = {
+    streetViewControl: false,
+}
+
 function MyComponent({ styles }: MapProps) {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -40,6 +44,7 @@ function MyComponent({ styles }: MapProps) {
             mapContainerStyle={styles.container}
             center={center}
             zoom={10}
+            options={options}
             onLoad={m => console.log(m)}
         >
             { /*
