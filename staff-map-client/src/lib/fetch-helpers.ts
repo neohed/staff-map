@@ -1,3 +1,5 @@
+import envVars from "./env-vars";
+
 function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType: string | undefined}) {
     const headers = new Headers();
 
@@ -24,7 +26,7 @@ function createFormDataObject(formData: object) {
     return data
 }
 
-const getUrl = (url: string) => new URL(url, process.env.REACT_APP_API).toString();
+const getUrl = (url: string) => new URL(url, envVars.REACT_APP_API_URL).toString();
 
 const getQuerystring = (properties: object) => '?' + Object.entries(properties).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&');
 
