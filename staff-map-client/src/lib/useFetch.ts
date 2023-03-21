@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 
+//TODO Add env var to start script check and env-vars lib.
 export const getUrl = (url: string) => new URL(url, process.env.REACT_APP_URL_API).toString();
 
 function useFetch(url: string, skip: boolean = false) {

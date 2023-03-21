@@ -1,4 +1,4 @@
-function getFetchHeaders({token, setContentType, contentType}: {token: string, setContentType: boolean, contentType: string}) {
+function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType: string | undefined}) {
     const headers = new Headers();
 
     if (contentType) {
@@ -37,7 +37,7 @@ type FetchOptionParams = {
     setContentType?: boolean;
 }
 
-function getFetchOptions(postData: object, options: FetchOptionParams): RequestInit {
+function getFetchOptions(postData: object, options?: FetchOptionParams): RequestInit {
     const hasPostData = !!postData;
     const isFormData = hasPostData && postData instanceof FormData;
 
@@ -48,7 +48,7 @@ function getFetchOptions(postData: object, options: FetchOptionParams): RequestI
         isPost = false,
         stringify = !isFormData, // Don't stringify FormData objects.
         setContentType = !isFormData, // FormData contentType gets auto detected.
-    } = options;
+    } = options || {};
 
     const fetchOptions: RequestInit = {
         method: method ?? ((isPost || hasPostData) ? 'POST' : 'GET'),
