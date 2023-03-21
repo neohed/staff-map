@@ -1,5 +1,5 @@
 import Login from "./components/Login";
-import RequireAuth from "./components/RequireAuth";
+import AuthRoute from "./components/AuthRoute";
 /*
 import AuthButton from "./components/AuthButton";
 import authProvider from "./components/authProvider";
@@ -7,7 +7,7 @@ import authProvider from "./components/authProvider";
 
 export {
     Login,
-    RequireAuth,
+    AuthRoute,
     /*
     AuthButton,
     authProvider,
