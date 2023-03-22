@@ -1,39 +1,28 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import {hashPassword} from "../lib/auth-hash";
 
 const prisma = new PrismaClient();
 
 async function seed() {
-    const email = "a@b.c";
+    const email = "admin@example.com";
 
     // Blitz everything!
-    await prisma.image.deleteMany();
-    await prisma.post.deleteMany();
-    await prisma.draftTranslation.deleteMany();
-    await prisma.draft.deleteMany();
+    await prisma.user.deleteMany();
+    await prisma.role.deleteMany();
 
-    await prisma.user.delete({ where: { email } }).catch(() => {
-        // dev null
-    });
-
-    const hashedPassword = await bcrypt.hash("blink182", 10);
+    const hashedPassword = await hashPassword('Blink182');
 
     const user = await prisma.user.create({
         data: {
             email,
-            password: {
-                create: {
-                    hash: hashedPassword,
-                },
-            },
+            password: hashedPassword,
+            isDisabled: false,
         },
     });
 
-    await prisma.draft.create({
+    await prisma.role.create({
         data: {
-            slug: 'first-post',
-            isLive: false,
-            userId: user.id,
+            name: 'admin',
         },
     });
 
