@@ -1,10 +1,15 @@
 import {getUrl, getFetchOptions} from "../../../lib/fetch-helpers";
 
+export interface LoginValues {
+    email: string;
+    password: string;
+}
+
 const authProvider = {
-    async login(username: string, password: string) {
+    async login(credentials: LoginValues) {
         const response = await fetch(
             getUrl('auth/login'),
-            getFetchOptions({username, password})
+            getFetchOptions(credentials)
         );
 
         if (response.ok) {

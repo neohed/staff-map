@@ -1,93 +1,72 @@
 import React, {useContext, useState} from 'react';
+import type {LoginValues} from "./authProvider";
 import {
-    redirect,
+    useLocation,
+    useNavigate,
 } from 'react-router-dom'
 import SetValueContext from '../../../lib/SetValueContext'
 import authProvider from './authProvider';
-//import './login-form.css';
+import './Form.css'
 
 function Login() {
     const {setValue} = useContext(SetValueContext)
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-    const [disableLogin, setDisableLogin] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState('');
 
-    //const history = useHistory();
-    //const {state} = history.location;
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const login = () => {
-        setDisableLogin(true);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setMessage('');
 
-        authProvider.login(username, password).then(user => {
-            setValue(contextKeys.auth, user);
-            setRedirectToReferrer(true)
-        }, res => {
-            setValue(contextKeys.auth, {});
-            setRedirectToReferrer(false)
-            setDisableLogin(false);
-        })
-    }
-    /*
-    if (redirectToReferrer) {
-        return <Redirect to={state?.referrer || '/member/welcome'}/>
-    }
-     */
+        setIsSubmitting(true);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const formValues: LoginValues = {
+            email: formData.get('email') as string,
+            password: formData.get('password') as string
+        }
+
+        authProvider.login(formValues).then(
+            (user) => {
+                setValue('AUTH', user);
+                const from = location.state?.from?.pathname || "/";
+                navigate(from, { replace: true })
+            },
+            () => {
+                setValue('AUTH', {});
+                setIsSubmitting(false);
+                setMessage('Login failed!')
+            },
+        )
+    };
 
     return (
-        <div className='login-form'>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <label htmlFor="email"><b>Email</b></label>
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <input
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <label htmlFor="password"><b>Password</b></label>
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <input
-                        type="password"
-                        name="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <button type="submit" onClick={login} disabled={disableLogin}>Login</button>
-                    <span>Remember me</span>
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <span>Reset <a href="http://neohed.com">password</a></span>
-                </div>
-            </div>
-            <div className='row-75'>
-                <div className='col-1'>
-                    <div>{message}</div>
-                </div>
-            </div>
-        </div>
+        <form
+            className='login-form'
+            onSubmit={handleSubmit}
+        >
+            <fieldset
+                disabled={isSubmitting}
+            >
+                <p>
+                    <label htmlFor="email">Email</label>
+                    <input name="email" type="email" required={true} placeholder="Enter email"/>
+                </p>
+                <p>
+                    <label htmlFor="password">Password</label>
+                    <input name="password" type="password" required={true} placeholder="Enter password" />
+                </p>
+                <p>
+                    {
+                        message
+                    }
+                </p>
+                <button type="submit">Login</button>
+            </fieldset>
+        </form>
     )
 }
 
