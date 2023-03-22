@@ -3,8 +3,9 @@ import {roles} from '../model/role.model'
 import authRouter from "./auth.routes"
 import adminRouter from "./admin.routes"
 import mapRouter from "./map.routes"
+import type {Express} from "express";
 
-const routes = app => {
+const routes = (app: Express) => {
     app.use(getUserObjectFromAuthHeader); // See if we have a JWT object in request header!
     app.use('/auth', authRouter);
 

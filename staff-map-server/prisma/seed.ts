@@ -12,17 +12,22 @@ async function seed() {
 
     const hashedPassword = await hashPassword('Blink182');
 
+    await prisma.role.create({
+        data: {
+            name: 'user',
+        },
+    });
+    await prisma.role.create({
+        data: {
+            name: 'admin',
+        },
+    });
+
     const user = await prisma.user.create({
         data: {
             email,
             password: hashedPassword,
             isDisabled: false,
-        },
-    });
-
-    await prisma.role.create({
-        data: {
-            name: 'admin',
         },
     });
 

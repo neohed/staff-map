@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt"
+import type {Request, Response} from 'express';
 import {generateToken, getCleanUser} from '../lib/auth-jwt';
 import {hashPassword} from '../lib/auth-hash';
 import jwt from 'jsonwebtoken';
@@ -6,9 +7,15 @@ import {isEmptyString} from "../lib/strings";
 //import db = require('../db');
 //import {EventTypes} from '../model/EventType';
 
-async function postRegister(req, res) {
+const EventTypes = {
+    LoginSuccess: 1,
+    LoginFailure: 2,
+}
+
+async function postRegister(req: Request, res: Response) {
     const {username, password} = req.body;
 
+    /*
     // Return 400 status if username/password does not exist.
     if (isEmptyString(username) || isEmptyString(password)) {
         return res.status(400).json({
@@ -19,15 +26,20 @@ async function postRegister(req, res) {
 
     const hashedPassword = await hashPassword(password);
     const userEntity = await db.addUser({username, password: hashedPassword});
+
     const user = getCleanUser(userEntity);
 
     // return the token along with user details
     return res.json({ user });
+
+     */
+    return res.json({ });
 }
 
-async function postLogin(req, res) {
+async function postLogin(req: Request, res: Response) {
     const {username, password} = req.body;
 
+    /*
     // Return 400 status if username/password does not exist.
     if (!username || !password) {
         return res.status(400).json({
@@ -37,7 +49,14 @@ async function postLogin(req, res) {
     }
 
     const userEntity = await db.getUserByUsername(username);
-    const iP_Address = req.connection.remoteAddress;
+    const iP_Address = req.socket.remoteAddress;
+
+    if (userEntity === null) {
+        return res.status(400).json({
+            error: true,
+            message: "Bad user."
+        });
+    }
 
     // Return 401 status if the credentials do not match.
     bcrypt.compare(password, userEntity.password, function(err, result) {
@@ -69,9 +88,11 @@ async function postLogin(req, res) {
         // return the token along with user details
         return res.json({ user: userObj, token });
     });
+
+     */
 }
 
-async function getVerifyToken(req, res) {
+async function getVerifyToken(req: Request, res: Response) {
     // check header or url parameters or post parameters for token
     const token = req.query.token;
     if (!token) {
@@ -81,6 +102,8 @@ async function getVerifyToken(req, res) {
         });
     }
 
+    throw Error('Kaboom!')
+    /*
     // check token that was passed by decoding token using secret
     jwt.verify(token, process.env.JWT_SECRET, async function (err, user) {
         if (err) return res.status(401).json({
@@ -102,6 +125,8 @@ async function getVerifyToken(req, res) {
         const userObj = getCleanUser(userEntity);
         return res.json({ user: userObj, token });
     });
+
+     */
 }
 
 export {
