@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import type { Role } from "../model/role.model";
 import {hashPassword} from "../lib/auth-hash";
 
 const prisma = new PrismaClient();
@@ -14,20 +15,28 @@ async function seed() {
 
     await prisma.role.create({
         data: {
-            name: 'user',
+            name: 'User',
         },
     });
     await prisma.role.create({
         data: {
-            name: 'admin',
+            name: 'Admin',
         },
     });
+
+    const userRole: Role = (await prisma.role.findUnique({
+        where: { name: 'User' }
+    })) as Role;
+    const adminRole: Role = (await prisma.role.findUnique({
+        where: { name: 'Admin' }
+    })) as Role;
 
     const user = await prisma.user.create({
         data: {
             email,
             password: hashedPassword,
             isDisabled: false,
+            roles: { connect: [{ id: adminRole.id }]}
         },
     });
 
