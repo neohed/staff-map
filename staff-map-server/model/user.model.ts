@@ -1,7 +1,19 @@
-import type { Password, User } from "@prisma/client";
-import bcrypt from "bcryptjs";
+export type User = {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    isDisabled: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    roles: string[];
+}
 
-import { prisma } from "~/db.server";
+
+/*
+import type { User } from "@prisma/client";
+
+import prisma from "./db";
 
 export type { User } from "@prisma/client";
 
@@ -60,3 +72,4 @@ export async function verifyLogin(
 
     return userWithoutPassword;
 }
+ */
