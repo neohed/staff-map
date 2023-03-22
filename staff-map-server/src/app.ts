@@ -7,11 +7,11 @@ import bodyParser from 'body-parser'
 import compression from 'compression'
 import helmet from 'helmet'
 import {errorHandler} from './middleware/express-error-handlers'
+import dotenv from 'dotenv';
+dotenv.config()
 
 import initRoutes from './routes'
 //import {logger} from './middleware/logger'
-
-require('dotenv').config();
 
 const app: Express = express();
 
