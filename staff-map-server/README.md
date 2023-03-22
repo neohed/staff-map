@@ -34,6 +34,14 @@ This will create two users:
    * password: ```jspkvo0sD```
    * role: ```Admin```
 
+## Prisma Studio
+
+To interact with the DB run:
+
+```shell
+prisma studio
+```
+
 ## Prisma Migrate
 
 ```shell
