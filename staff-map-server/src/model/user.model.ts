@@ -1,8 +1,9 @@
 //import type { User } from "@prisma/client";
-
+import type {Role} from "./role.model";
 import prisma from "./db";
 
 //export type { User } from "@prisma/client";
+//HACK Can't get access to Prisma generated types!
 export type User = {
     id: string;
     name: string;
@@ -11,12 +12,13 @@ export type User = {
     isDisabled: boolean;
     createdAt: Date;
     updatedAt: Date;
-    roles: string[];
+    roles: Role[];
 }
 
-export async function getUserByEmail(email: string): Promise<User> {
+export async function getUserByEmail(email: string): Promise<User | null> {
     return await prisma.user.findUnique({
-        where: { email }
+        where: { email },
+        include: { roles: true },
     })
 }
 

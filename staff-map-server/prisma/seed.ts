@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import type { Role } from "../model/role.model";
-import {hashPassword} from "../lib/auth-hash";
+import type { Role } from "../src/model/role.model";
+import {hashPassword} from "../src/lib/auth-hash";
 
 const prisma = new PrismaClient();
 
@@ -35,6 +35,7 @@ async function seed() {
         data: {
             email,
             password: hashedPassword,
+            name: 'Administrator',
             isDisabled: false,
             roles: { connect: [{ id: adminRole.id }]}
         },

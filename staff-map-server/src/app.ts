@@ -8,7 +8,7 @@ import compression from 'compression'
 import helmet from 'helmet'
 import {errorHandler} from './middleware/express-error-handlers'
 
-import initRoutes from './routes/index'
+import initRoutes from './routes'
 //import {logger} from './middleware/logger'
 
 require('dotenv').config();
