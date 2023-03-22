@@ -1,11 +1,7 @@
-//import type { Role } from "@prisma/client";
+import type { Role } from "@prisma/client";
 import prisma from "./db";
 
-//HACK Can't get access to Prisma generated types!
-export type Role = {
-    id: number
-    name: string
-}
+export type { Role } from "@prisma/client";
 
 const roles = {
     user: 'User',

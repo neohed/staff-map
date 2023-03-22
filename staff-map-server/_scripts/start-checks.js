@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const fs = require('fs')
 const { readFile } = require('fs/promises')
 
@@ -23,14 +25,15 @@ async function createEnv(secret_key) {
     await write(contents.replace('{{MY_JWT_SECRET}}', secret_key))
 }
 
-try {
+(async function () {
+    try {
     if (fs.existsSync(env_path)) {
         log.info('.env file found.')
     } else {
         log.warn('.env file NOT found!')
         log.info('Creating .env file.')
         const secret = require('crypto').randomBytes(45).toString('base64');
-        createEnv(secret)
+        await createEnv(secret)
     }
 
     if (!fs.existsSync(db_path)) {
@@ -40,3 +43,4 @@ try {
 } catch(err) {
     log.error(err)
 }
+})();

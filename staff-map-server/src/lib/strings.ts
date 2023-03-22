@@ -1,3 +1,5 @@
+type NullableString = string | null | undefined;
+
 function toCamelCase(s: string) {
     return s[0].toLowerCase() + s.slice(1)
 }
@@ -11,7 +13,7 @@ function toBase64(plainString: string) {
     return buff.toString('base64');
 }
 
-function fromBase64(base64String) {
+function fromBase64(base64String: string) {
     const buff = Buffer.from(base64String, 'base64');
     return buff.toString('utf-8');
 }
@@ -20,8 +22,8 @@ function makeSafe(s: string, maxLength = 160) {
     return s.replace(/[^a-z0-9]/gi, '_').toLowerCase().substring(0, maxLength)
 }
 
-const isNullOrUndefined = prop => prop === null || prop === undefined;
-const isEmptyString = prop => isNullOrUndefined(prop) || prop === '';
+const isNullOrUndefined = (prop: NullableString) => prop === null || prop === undefined;
+const isEmptyString = (prop: NullableString) => isNullOrUndefined(prop) || prop === '';
 
 export {
     toCamelCase,
