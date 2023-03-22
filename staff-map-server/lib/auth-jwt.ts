@@ -45,7 +45,7 @@ function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: Next
         if (err) {
             return res.status(401).json({
                 error: true,
-                message: "YFA - Invalid user."
+                message: "Invalid user."
             });
         } else {
             req.user = user as User; //set the user to req so other routes can use it
