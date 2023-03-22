@@ -47,7 +47,6 @@
     "winston": "^3.8.2"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts",
-    "seed_old": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   }
 }
