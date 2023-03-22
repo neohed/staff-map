@@ -108,6 +108,7 @@
   },
   "include": [
     "./**/*",
+    "node_modules",
     "node_modules/@prisma/client",
     "node_modules/.prisma/client"
   ]
