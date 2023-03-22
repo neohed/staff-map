@@ -70,7 +70,7 @@ const authorizeRoles = (allowedRoles: string[]) => (req: AuthRequest, res: Respo
     }
     const {roles} = user;
 
-    if (!roles.some(role => allowedRoles.includes(role))) {
+    if (!roles.map(role => role.name).some(role => allowedRoles.includes(role))) {
         return res.status(403).json({ error: 'Cerberus, you are not authorized for this!' })
     }
 

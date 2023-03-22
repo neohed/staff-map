@@ -48,6 +48,13 @@ async function postLogin(req: Request, res: Response) {
     }
 
     const userEntity = await userRepo.getUserByEmail(email);
+
+    if (userEntity === null) {
+        return res.status(400).json({
+            error: true,
+            message: "No user."
+        });
+    }
     const iP_Address = req.socket.remoteAddress;
 
     // Return 401 status if the credentials do not match.
