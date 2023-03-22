@@ -3,8 +3,6 @@
 
 ## Prisma Initialise
 
-[blog](https://dev.to/this-is-learning/its-prisma-time-execute-your-own-queries-4olp)
-
 1. To create the DB and model run these two commands:
 
 ```shell
