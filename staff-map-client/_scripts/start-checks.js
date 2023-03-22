@@ -17,7 +17,7 @@ if (gmailApiKeyValue === undefined || gmailApiKeyValue === '') {
 
     process.exit(1) // error
 } else {
-    log.info('Key for google maps found.\n\nProceeding...');
+    log.info('API Key for google maps found.\n\nProceeding...');
 
     process.exit(0) // success
 }

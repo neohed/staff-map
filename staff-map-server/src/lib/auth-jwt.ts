@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
 import type {Secret} from "jsonwebtoken";
 import type {Request, Response, NextFunction} from 'express';
-import type {User} from "../model/user.model";
+import type {UserRoles} from "../model/user.model";
 
 type AuthRequest = Request & {
-    user?: User
+    user?: UserRoles
 }
 
 // return basic user details
-function getCleanUser(user: User) {
+function getCleanUser(user: UserRoles) {
     if (!user) return null;
 
     const {id, name, email, roles} = user;
@@ -22,7 +22,7 @@ function getCleanUser(user: User) {
 }
 
 // generate token and return it
-function generateToken(user: User) {
+function generateToken(user: UserRoles) {
     //1. Don't use password and other sensitive fields
     //2. Use the information that are useful in other parts
     if (!user) return null;
@@ -48,7 +48,7 @@ function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: Next
                 message: "Invalid user."
             });
         } else {
-            req.user = user as User; //set the user to req so other routes can use it
+            req.user = user as UserRoles; //set the user to req so other routes can use it
 
             next();
         }

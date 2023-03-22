@@ -2,11 +2,11 @@
   "name": "staff-map-server",
   "version": "1.0.0",
   "description": "",
-  "main": "bin/server.ts",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "node .\\_scripts\\start-checks.js",
-    "start": "nodemon -e ts --exec ts-node bin/server.ts",
+    "start": "nodemon -e ts --exec ts-node src/server.ts",
     "build": "npx tsc",
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "setup": "prisma migrate dev && prisma db seed",
@@ -45,6 +45,9 @@
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "winston": "^3.8.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
