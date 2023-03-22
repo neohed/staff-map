@@ -1,11 +1,11 @@
 # staff-map-server
 
 
-## Prisma
+## Prisma Initialise
 
 [blog](https://dev.to/this-is-learning/its-prisma-time-execute-your-own-queries-4olp)
 
-In some order (I forget which)
+1. To create the DB and model run these two commands:
 
 ```shell
 npx prisma db push
@@ -13,9 +13,18 @@ npx prisma db push
 npx prisma generate
 ```
 
+2. To seed the database run:
+
 ```shell
 npx prisma db seed
 ```
+
+This will create an admin user:
+
+username: admin@example.com
+password: Blink182
+
+## Prisma Migrate
 
 ```shell
 npx prisma migrate dev --name name_of_stuff

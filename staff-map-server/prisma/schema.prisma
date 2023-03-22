@@ -8,88 +8,20 @@ generator client {
 }
 
 model User {
-    id    String @id @default(cuid())
-    email String @unique
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    password  Password?
-    drafts    Draft[]
-}
-
-model Password {
-    hash String
-
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    userId String @unique
-}
-
-model Image {
     id          String @id @default(cuid())
-    fileExt     String
-    alt         String
-    title       String
-
-    createdAt   DateTime @default(now())
-}
-
-model Series {
-    id          String @id @default(cuid())
-    title       String @unique
-
-    createdAt   DateTime @default(now())
-
-    drafts    Draft[]
-    posts     Post[]
-}
-
-model Draft {
-    id          String @id @default(cuid())
-    slug        String @unique
-    isLive      Boolean
-    seriesOrder Int @default(0)
+    email       String @unique
+    password    String
+    isDisabled  Boolean
 
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    series  Series  @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    seriesId    String
-
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    userId String
-
-    draftTranslations   DraftTranslation[]
+    roles       Role[]
 }
 
-model DraftTranslation {
-    id          String @id @default(cuid())
-    language    String
-    title       String
-    description String
-    markdown    String
-    isEdited    Boolean
+model Role {
+    id    Int    @id @default(autoincrement())
+    name  String @unique
 
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-
-    draft   Draft   @relation(fields: [draftId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    draftId String
-
-    posts   Post[]
-}
-
-model Post {
-    id          String @id @default(cuid())
-    content     String
-    seriesOrder Int @default(0)
-
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-
-    series  Series  @relation(fields: [seriesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    seriesId    String
-
-    draftTranslation    DraftTranslation   @relation(fields: [draftTranslationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    draftTranslationId  String @unique
+    users   User[]
 }

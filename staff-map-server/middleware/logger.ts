@@ -1,26 +1,18 @@
-import {createLogger, transports, format } from 'winston';
-const { combine, timestamp, label, printf } = format;
+import winston from 'winston';
 
-const myFormat = printf(({ level, message, label, timestamp }) => {
-    return `${timestamp} [${label}] ${level}: ${message}`;
-});
+const service_name = "staff-map-server";
 
-const logger = createLogger({
+const logger = winston.createLogger({
     level: 'info',
-    //format: winston.format.json(),
-    format: combine(
-        label({ label: 'staff-map-server' }),
-        timestamp(),
-        myFormat
-    ),
-    defaultMeta: { service: 'staff-map-server' },
+    format: winston.format.json(),
+    defaultMeta: { service: service_name },
     transports: [
         //
-        // - Write all logs with level `error` and below to `error.log`
-        // - Write all logs with level `info` and below to `combined.log`
+        // - Write all logs with importance level of `error` or less to `error.log`
+        // - Write all logs with importance level of `info` or less to `combined.log`
         //
-        new transports.File({ filename: 'error.log', level: 'error', timestamp: true }),
-        new transports.File({ filename: 'combined.log', timestamp: true }),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' }),
     ],
 });
 
@@ -29,8 +21,8 @@ const logger = createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
-    logger.add(new transports.Console({
-        format: format.simple(),
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple(),
     }));
 }
 

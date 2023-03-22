@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import {logger} from '../middleware/logger'
 
-const hashPassword = async (password, saltRounds = 12) => {
+async function hashPassword(password: string, saltRounds = 12): Promise<string> {
     try {
         // Generate a salt
         const salt = await bcrypt.genSalt(saltRounds);
@@ -10,11 +10,9 @@ const hashPassword = async (password, saltRounds = 12) => {
         return await bcrypt.hash(password, salt);
     } catch (error) {
         logger.error(error);
+        throw error
     }
-
-    // Return null if error
-    return null;
-};
+}
 
 export {
     hashPassword,
