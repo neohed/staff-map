@@ -1,43 +1,71 @@
-import { PrismaClient } from "@prisma/client";
-import type { Role } from "../src/model/role.model";
+import {PrismaClient} from "@prisma/client";
+import type {Role} from "../src/model/role.model";
 import {hashPassword} from "../src/lib/auth-hash";
 
 const prisma = new PrismaClient();
 
+const roles = {
+    user: 'User',
+    admin: 'Admin'
+}
+
 async function seed() {
-    const email = "admin@example.com";
+    const users = {
+        bob: {
+            email: 'bob@example.com',
+            name: 'Bob',
+            password: await hashPassword('password')
+        },
+        alice: {
+            email: 'alice@example.com',
+            name: 'Alice',
+            password: await hashPassword('jspkvo0sD')
+        }
+    }
 
     // Blitz everything!
     await prisma.user.deleteMany();
     await prisma.role.deleteMany();
 
-    const hashedPassword = await hashPassword('Blink182');
-
+    // Create roles
     await prisma.role.create({
         data: {
-            name: 'User',
+            name: roles.user,
         },
     });
     await prisma.role.create({
         data: {
-            name: 'Admin',
+            name: roles.admin,
         },
     });
 
+    // Create users
     const userRole: Role = (await prisma.role.findUnique({
-        where: { name: 'User' }
+        where: {name: roles.user}
     })) as Role;
+    const {alice, bob} = users;
+
+    await prisma.user.create({
+        data: {
+            email: bob.email,
+            password: bob.password,
+            name: bob.name,
+            isDisabled: false,
+            roles: {connect: [{id: userRole.id}]}
+        },
+    });
+
     const adminRole: Role = (await prisma.role.findUnique({
-        where: { name: 'Admin' }
+        where: {name: roles.admin}
     })) as Role;
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
         data: {
-            email,
-            password: hashedPassword,
-            name: 'Administrator',
+            email: alice.email,
+            password: alice.password,
+            name: alice.name,
             isDisabled: false,
-            roles: { connect: [{ id: adminRole.id }]}
+            roles: {connect: [{id: adminRole.id}]}
         },
     });
 
