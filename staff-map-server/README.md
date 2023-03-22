@@ -1,9 +1,12 @@
 # staff-map-server
 
+* DB: SqlLite 
+* ORM: Prisma
+
 
 ## Prisma Initialise
 
-1. To create the DB and model run these two commands:
+1. To create the DB and generate the model, run these two commands:
 
 ```shell
 npx prisma db push
@@ -17,10 +20,19 @@ npx prisma generate
 npx prisma db seed
 ```
 
-This will create an admin user:
+The DB seed script is located at: ```.\prisma\seed.ts```
 
-username: admin@example.com
-password: Blink182
+This will create two users:
+
+1. Bob
+   * username: ```bob@example.com```
+   * password: ```password```
+   * role: ```User```
+
+2. Alice
+   * username: ```alice@example.com```
+   * password: ```jspkvo0sD```
+   * role: ```Admin```
 
 ## Prisma Migrate
 
