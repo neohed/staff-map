@@ -3,6 +3,7 @@ import usePlacesAutocomplete, {
     getLatLng,
 } from "use-places-autocomplete";
 import {Combobox} from '@headlessui/react'
+import "./Places.css"
 
 type PlacesProps = {
     setOffice: (position: google.maps.LatLngLiteral) => void;
@@ -33,22 +34,24 @@ export default function Places({setOffice}: PlacesProps) {
     }
 
     return (
-        <Combobox
-            onChange={handleSelect}
-        >
-            <Combobox.Input
-                value={value}
-                onChange={(event) => setValue(event.target.value)}
-                placeholder="Search an address"
-                readOnly={!ready}
-            />
-            <Combobox.Options>
-                {status === "OK" && data.map(({place_id, description}) => (
-                    <Combobox.Option key={place_id} value={description}>
-                        {description}
-                    </Combobox.Option>
-                ))}
-            </Combobox.Options>
-        </Combobox>
-    );
+        <div className="places">
+            <Combobox
+                onChange={handleSelect}
+            >
+                <Combobox.Input
+                    value={value}
+                    onChange={(event) => setValue(event.target.value)}
+                    placeholder="Search an address"
+                    readOnly={!ready}
+                />
+                <Combobox.Options>
+                    {status === "OK" && data.map(({place_id, description}) => (
+                        <Combobox.Option key={place_id} value={description}>
+                            {description}
+                        </Combobox.Option>
+                    ))}
+                </Combobox.Options>
+            </Combobox>
+        </div>
+    )
 }
