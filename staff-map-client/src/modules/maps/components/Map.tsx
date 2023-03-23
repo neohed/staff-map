@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useCallback, useState, useEffect} from 'react'
 import {
     GoogleMap,
     Marker,
@@ -7,20 +7,37 @@ import {
     MarkerClusterer,
     useJsApiLoader
 } from '@react-google-maps/api';
-import { center, options, defaultOptions } from './map-options';
+import { center, mapOptions, defaultOptions } from './map-options';
 import MapLoading from "./MapLoading";
 import envVars from "../../../lib/env-vars";
-// import type {MapProps} from "./types";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
-function GoogleMapWrapper() { // { }: MapProps
+type Props = {
+    setReady: (isReady: boolean) => void;
+}
+
+function GoogleMapWrapper({setReady}: Props) {
+    const mapRef = useRef<google.maps.Map>();
+    const [office, setOffice] = useState<LatLngLiteral>({lat: 51.50630583891455, lng: -0.23167620553477958});
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY
     })
+    useEffect(() => {
+        setReady(isLoaded)
+    }, [setReady, isLoaded])
+
+    const onLoad = useCallback((map: google.maps.Map) => {
+        mapRef.current = map
+    }, []);
+
+    const updateOffice = (position: LatLngLiteral) => {
+        setOffice(position);
+        mapRef.current?.panTo(position)
+    }
 
     if (!isLoaded) {
         return <MapLoading />
@@ -31,10 +48,12 @@ function GoogleMapWrapper() { // { }: MapProps
             mapContainerClassName='map-container'
             center={center}
             zoom={10}
-            options={options}
-            onLoad={m => console.log(m)}
+            options={mapOptions}
+            onLoad={onLoad}
         >
-            <></>
+            {
+                office && <Marker position={office} />
+            }
         </GoogleMap>
     )
 }

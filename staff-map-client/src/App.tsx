@@ -1,4 +1,11 @@
 import React from 'react';
+import {MapPage} from './modules/maps'
+import {Login} from "./modules/account";
+import {Routes, Route} from 'react-router-dom'
+import Menu from './components/Menu';
+import Home from "./components/Home";
+import {AuthRoute} from "./modules/account"
+import './App.css';
 /*
 import ShapesMap from "./components/ShapesMap";
 import BicyclingMap from "./components/BicyclingMap";
@@ -8,13 +15,6 @@ import TransitMap from "./components/TransitMap";
 import SearchMap from "./components/SearchMap";
 import SimpleMap from "./components/SimpleMap";
  */
-import {MapPage} from './modules/maps'
-import {Login} from "./modules/account";
-import {Routes, Route} from 'react-router-dom'
-import Menu from './components/Menu';
-import Home from "./components/Home";
-import {AuthRoute} from "./modules/account"
-import './App.css';
 
 function App() {
     return (

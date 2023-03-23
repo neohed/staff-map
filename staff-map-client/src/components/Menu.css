@@ -1,9 +1,17 @@
-ul {
+nav ul {
     list-style-type: none;
     display: flex;
-  }
-  
-  li {
+}
+
+nav li {
     font-size: 16px;
-    padding: 0 5px;
-  }
+    padding: 0 6px 4px;
+}
+
+nav li:has(a.active) {
+    background-color: silver;
+}
+
+nav li a.active {
+    color: #fff;
+}
