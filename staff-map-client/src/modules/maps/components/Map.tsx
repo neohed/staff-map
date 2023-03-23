@@ -13,27 +13,11 @@ const options = {
     streetViewControl: false,
 }
 
-function MyComponent({ styles }: MapProps) {
+function GoogleMapWrapper({ styles }: MapProps) {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY
     })
-
-    /*
-    const [map, setMap] = React.useState(null)
-
-    const onLoad = React.useCallback(function callback(map) {
-        // This is just an example of getting and using the map instance!!! don't just blindly copy!
-        const bounds = new window.google.maps.LatLngBounds(center);
-        map.fitBounds(bounds);
-
-        setMap(map)
-    }, [])
-
-    const onUnmount = React.useCallback(function callback(map) {
-        setMap(null)
-    }, [])
-     */
 
     if (!isLoaded) {
         return <MapLoading />
@@ -47,16 +31,11 @@ function MyComponent({ styles }: MapProps) {
             options={options}
             onLoad={m => console.log(m)}
         >
-            { /*
-               * onUnmount={onUnmount}
-               * Child components, such as markers, info windows, etc.
-               *
-               */ }
             <></>
         </GoogleMap>
     )
 }
 
-const Map = React.memo(MyComponent)
+const Map = React.memo(GoogleMapWrapper)
 
 export default Map
