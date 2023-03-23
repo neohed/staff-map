@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useReducer} from "react";
 import {LoadScript} from '@react-google-maps/api'
 import envVars from "../../../lib/env-vars";
 import {libraries} from "./map-options";
@@ -6,11 +6,32 @@ import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
 
-const onLoad = () => console.log('script loaded')
+const onLoad = () => console.log('gmaps scripts loaded')
 const onError = (err: Error) => console.log('onError: ', err)
 
+export type MapDataState = {
+    office: google.maps.LatLngLiteral | undefined;
+};
+
+type Action =
+    | { type: 'nada' }
+    | { type: 'set-office'; payload: google.maps.LatLngLiteral };
+
+const initialState = (): MapDataState => ({
+    office: undefined,
+})
+
+function reducer(state: MapDataState, action: Action): MapDataState {
+    switch (action.type) {
+        case 'nada':
+            return { ...state };
+        case 'set-office':
+            return { ...state, office: action.payload };
+    }
+}
+
 const MapPage = () => {
-    //const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [state, dispatch] = useReducer(reducer, initialState());
 
     return (
         <LoadScript
@@ -25,8 +46,12 @@ const MapPage = () => {
             preventGoogleFontsLoading={false}
         >
             <Layout
+                setOffice={
+                    office => dispatch({ type: 'set-office', payload: office })
+                }
                 main={
                     <Map
+                        mapDataState={state}
                     />
                 }
             />
