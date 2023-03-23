@@ -3,18 +3,15 @@ import Places from "./Places";
 import "./Layout.css";
 
 type Props = {
-    isReady: boolean;
     main: JSX.Element;
 }
 
-const Layout = ({isReady, main}: Props) => {
+const Layout = ({main}: Props) => {
     return (
         <div className="container">
             <aside>
                 <section>
-                    {
-                        isReady && <Places setOffice={x => console.log(x)} />
-                    }
+                <Places setOffice={x => console.log(x)} />
                 </section>
                 <section>Marker</section>
                 <section>Navigate</section>
