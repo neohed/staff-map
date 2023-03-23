@@ -1,0 +1,30 @@
+nav {
+    height: 40px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav li {
+    padding: 12px;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 62px);
+}
+
+aside {
+    width: 20%;
+    padding: 1rem;
+    background: #14161a;
+    color: #fff;
+}
+
+main {
+    width: 100%;
+    background-color: #c0e2c5;
+    color: white;
+}

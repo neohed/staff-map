@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import GlobalContextProvider from "./lib/GlobalContextProvider";
 import {BrowserRouter} from 'react-router-dom'
+import 'normalize.css';
 import './index.css';
 
 const root = ReactDOM.createRoot(

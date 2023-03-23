@@ -1,17 +1,20 @@
 import React from 'react'
 import type {MapProps} from "./types";
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import {
+    GoogleMap,
+    Marker,
+    DirectionsRenderer,
+    Circle,
+    MarkerClusterer,
+    useJsApiLoader
+} from '@react-google-maps/api';
+import { center, options, defaultOptions } from './map-options';
 import MapLoading from "./MapLoading";
 import envVars from "../../../lib/env-vars";
 
-const center = {
-    lat: 51.50052933987512,
-    lng: -0.12615771706025705
-};
-
-const options = {
-    streetViewControl: false,
-}
+type LatLngLiteral = google.maps.LatLngLiteral;
+type DirectionsResult = google.maps.DirectionsResult;
+type MapOptions = google.maps.MapOptions;
 
 function GoogleMapWrapper({ styles }: MapProps) {
     const { isLoaded } = useJsApiLoader({

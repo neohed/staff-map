@@ -1,5 +1,5 @@
 import React from 'react'
-import type {MapProps} from "./types";
+import {MapProps} from "../modules/maps";
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import MapLoading from "./MapLoading";
 import envVars from "../lib/env-vars";
