@@ -59,7 +59,7 @@ function Login() {
                     <label htmlFor="password">Password</label>
                     <input name="password" type="password" required={true} placeholder="Enter password" />
                 </p>
-                <p>
+                <p className="error">
                     {
                         message
                     }

@@ -6,6 +6,11 @@ form {
     max-width: 600px;
 }
 
+form p.error {
+    color: red;
+    text-align: center;
+}
+
 form button[type=submit] {
     margin-left: 159px;
 }
