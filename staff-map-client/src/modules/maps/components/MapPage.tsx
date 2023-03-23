@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {LoadScript} from '@react-google-maps/api'
 import envVars from "../../../lib/env-vars";
 import {libraries} from "./map-options";
@@ -10,7 +10,7 @@ const onError = (err: Error) => console.log('onError: ', err)
 const Loading = <div>Loading...</div>;
 
 const MapPage = () => {
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    //const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     return (
         <LoadScript
@@ -25,10 +25,8 @@ const MapPage = () => {
             preventGoogleFontsLoading={false}
         >
             <Layout
-                isReady={isLoaded}
                 main={
                     <Map
-                        setReady={setIsLoaded}
                     />
                 }
             />
