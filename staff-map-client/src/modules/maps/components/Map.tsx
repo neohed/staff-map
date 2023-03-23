@@ -5,7 +5,7 @@ import {
     DirectionsRenderer,
     Circle,
     MarkerClusterer,
-    useJsApiLoader
+    useJsApiLoader,
 } from '@react-google-maps/api';
 import { center, mapOptions, defaultOptions } from './map-options';
 import MapLoading from "./MapLoading";
@@ -22,13 +22,18 @@ type Props = {
 function GoogleMapWrapper({setReady}: Props) {
     const mapRef = useRef<google.maps.Map>();
     const [office, setOffice] = useState<LatLngLiteral>({lat: 51.50630583891455, lng: -0.23167620553477958});
+    /*
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY
+        googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY,
+        libraries: []
     })
+     */
+    /*
     useEffect(() => {
         setReady(isLoaded)
     }, [setReady, isLoaded])
+     */
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map
@@ -38,10 +43,11 @@ function GoogleMapWrapper({setReady}: Props) {
         setOffice(position);
         mapRef.current?.panTo(position)
     }
-
+/*
     if (!isLoaded) {
         return <MapLoading />
     }
+ */
 
     return (
         <GoogleMap
