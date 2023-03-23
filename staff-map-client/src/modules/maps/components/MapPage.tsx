@@ -4,10 +4,10 @@ import envVars from "../../../lib/env-vars";
 import {libraries} from "./map-options";
 import Layout from './Layout';
 import Map from './Map';
+import MapLoading from "./MapLoading";
 
 const onLoad = () => console.log('script loaded')
 const onError = (err: Error) => console.log('onError: ', err)
-const Loading = <div>Loading...</div>;
 
 const MapPage = () => {
     //const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -20,7 +20,7 @@ const MapPage = () => {
             version='weekly'
             onLoad={onLoad}
             onError={onError}
-            loadingElement={Loading}
+            loadingElement={<MapLoading />}
             libraries={libraries}
             preventGoogleFontsLoading={false}
         >

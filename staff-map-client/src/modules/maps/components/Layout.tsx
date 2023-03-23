@@ -11,7 +11,7 @@ const Layout = ({main}: Props) => {
         <div className="container">
             <aside>
                 <section>
-                <Places setOffice={x => console.log(x)} />
+                    <Places setOffice={x => console.log(x)} />
                 </section>
                 <section>Marker</section>
                 <section>Navigate</section>
