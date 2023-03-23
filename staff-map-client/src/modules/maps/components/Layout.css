@@ -13,6 +13,9 @@ nav li {
 
 .container {
     display: flex;
+}
+
+.map-container {
     height: calc(100vh - 62px);
 }
 

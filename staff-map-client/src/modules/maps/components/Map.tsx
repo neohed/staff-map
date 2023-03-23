@@ -1,5 +1,4 @@
 import React from 'react'
-import type {MapProps} from "./types";
 import {
     GoogleMap,
     Marker,
@@ -11,12 +10,13 @@ import {
 import { center, options, defaultOptions } from './map-options';
 import MapLoading from "./MapLoading";
 import envVars from "../../../lib/env-vars";
+// import type {MapProps} from "./types";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
-function GoogleMapWrapper({ styles }: MapProps) {
+function GoogleMapWrapper() { // { }: MapProps
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: envVars.GOOGLE_MAPS_API_KEY
@@ -28,7 +28,7 @@ function GoogleMapWrapper({ styles }: MapProps) {
 
     return (
         <GoogleMap
-            mapContainerStyle={styles.container}
+            mapContainerClassName='map-container'
             center={center}
             zoom={10}
             options={options}
