@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import type {CSSProperties} from "react";
 import PropTypes from 'prop-types'
 import {GoogleMap, StandaloneSearchBox, useJsApiLoader} from '@react-google-maps/api'
-import {MapProps} from "./types";
+import {MapProps} from "../modules/maps";
 import envVars from "../lib/env-vars";
 import MapLoading from "./MapLoading";
 

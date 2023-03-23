@@ -8,7 +8,7 @@ import {
     MARKER_LAYER,
     useJsApiLoader,
 } from '@react-google-maps/api'
-import type {MapProps} from "./types";
+import {MapProps} from "../modules/maps";
 import envVars from "../lib/env-vars";
 import MapLoading from "./MapLoading";
 
