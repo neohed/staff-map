@@ -1,12 +1,22 @@
 import React from "react";
+import Places from "./Places";
 import "./Layout.css";
 
-const Layout = ({main}: {main: JSX.Element}) => {
+type Props = {
+    isReady: boolean;
+    main: JSX.Element;
+}
+
+const Layout = ({isReady, main}: Props) => {
     return (
         <div className="container">
             <aside>
+                <section>
+                    {
+                        isReady && <Places setOffice={x => console.log(x)} />
+                    }
+                </section>
                 <section>Marker</section>
-                <section>Place</section>
                 <section>Navigate</section>
                 <section>Route</section>
             </aside>
