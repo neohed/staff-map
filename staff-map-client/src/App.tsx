@@ -6,8 +6,9 @@ import DataMap from "./components/DataMap";
 import OverlayMap from "./components/OverlayMap";
 import TransitMap from "./components/TransitMap";
 import SearchMap from "./components/SearchMap";
- */
 import SimpleMap from "./components/SimpleMap";
+ */
+import {Map} from './modules/maps'
 import type {MapStyles} from "./components/types";
 import {Login} from "./modules/account";
 import {Routes, Route, Link} from 'react-router-dom'
@@ -37,7 +38,7 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/map" element={
                     <AuthRoute>
-                        <SimpleMap styles={mapProps}/>
+                        <Map styles={mapProps}/>
                     </AuthRoute>
                 }/>
                 <Route path="*" element={<div>404</div>}/>
