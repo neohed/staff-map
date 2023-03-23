@@ -1,3 +1,7 @@
+nav {
+    border-top: 1px solid silver;
+}
+
 nav ul {
     list-style-type: none;
     display: flex;
@@ -9,7 +13,7 @@ nav li {
 }
 
 nav li:has(a.active) {
-    background-color: silver;
+    background-color: #252930;
 }
 
 nav li a.active {

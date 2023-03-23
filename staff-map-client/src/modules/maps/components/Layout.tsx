@@ -4,14 +4,17 @@ import "./Layout.css";
 
 type Props = {
     main: JSX.Element;
+    setOffice: (position: google.maps.LatLngLiteral) => void;
 }
 
-const Layout = ({main}: Props) => {
+const Layout = ({main, setOffice}: Props) => {
     return (
         <div className="container">
             <aside>
                 <section>
-                    <Places setOffice={x => console.log(x)} />
+                    <Places
+                        getPlace={place => setOffice(place)}
+                    />
                 </section>
                 <section>Marker</section>
                 <section>Navigate</section>

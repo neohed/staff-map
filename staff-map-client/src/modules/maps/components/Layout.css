@@ -20,9 +20,10 @@ nav li {
 }
 
 aside {
+    border-right: 1px solid #fff;
     width: 20%;
     padding: 1rem;
-    background-color: #14161a;
+    background-color: #252930;
     color: #fff;
 }
 
