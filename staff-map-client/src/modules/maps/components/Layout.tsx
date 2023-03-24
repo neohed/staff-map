@@ -1,5 +1,7 @@
 import React from "react";
+import type { FC } from 'react'
 import Places from "./Places";
+import Toolbox from "./Toolbox";
 import "./Layout.css";
 
 type Props = {
@@ -7,7 +9,7 @@ type Props = {
     setOffice: (position: google.maps.LatLngLiteral) => void;
 }
 
-const Layout = ({main, setOffice}: Props) => {
+const Layout: FC<Props> = ({main, setOffice}) => {
     return (
         <div className="container">
             <aside>
@@ -16,7 +18,9 @@ const Layout = ({main, setOffice}: Props) => {
                         getPlace={place => setOffice(place)}
                     />
                 </section>
-                <section>Marker</section>
+                <section>
+                    <Toolbox />
+                </section>
                 <section>Navigate</section>
                 <section>Route</section>
             </aside>

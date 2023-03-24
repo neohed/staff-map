@@ -1,4 +1,4 @@
-import React, {useRef, useCallback, useState, useEffect} from 'react'
+import React, { useRef, useCallback, useState, useEffect } from 'react'
 import {
     GoogleMap,
     MarkerF,
@@ -8,8 +8,11 @@ import {
     MarkerClusterer,
      */
 } from '@react-google-maps/api';
+import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
-import type {MapDataState} from './MapPage';
+import type { MapDataState } from './MapPage';
+import { PlaceTypes } from './types';
+import { point2LatLng } from './map-helpers';
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 //type DirectionsResult = google.maps.DirectionsResult;
@@ -19,9 +22,9 @@ type Props = {
     mapDataState: MapDataState;
 }
 
-function GoogleMapWrapper({mapDataState}: Props) {
+function GoogleMapWrapper({ mapDataState }: Props) {
     const mapRef = useRef<google.maps.Map>();
-    const [office, setOffice] = useState<LatLngLiteral>({lat: 51.50630583891455, lng: -0.23167620553477958});
+    const [office, setOffice] = useState<LatLngLiteral>({ lat: 51.50630583891455, lng: -0.23167620553477958 });
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map
@@ -32,25 +35,72 @@ function GoogleMapWrapper({mapDataState}: Props) {
         mapRef.current?.panTo(position)
     }, []);
 
-    const {office: newOffice} = mapDataState;
+    const { office: newOffice } = mapDataState;
     useEffect(() => {
         if (newOffice !== undefined) {
             updateOffice(newOffice)
         }
     }, [newOffice])
 
+    //TODO Create a DropWrapper?
+
+    const dropTargetRef = useRef<HTMLDivElement | null>();
+    const [{ canDrop, isOver }, drop] = useDrop(() => ({
+        accept: PlaceTypes.Office,
+        drop: (item, monitor) => {
+            // Get the dropped item's client offset
+            const dropOffset = monitor.getClientOffset();
+
+            // Get the drop target's bounding client rect
+            const dropTargetRect = dropTargetRef.current?.getBoundingClientRect();
+
+            // Calculate the relative x and y offset
+            const offsetX: number = (dropOffset !== null && dropTargetRect !== undefined)
+                ? dropOffset.x - dropTargetRect.left
+                : 0;
+            const offsetY: number = (dropOffset !== null && dropTargetRect !== undefined)
+                ? dropOffset.y - dropTargetRect.top
+                : 0;
+
+            const dropPoint: google.maps.Point = new google.maps.Point(offsetX, offsetY);
+
+            const dropCoords = point2LatLng(dropPoint, mapRef.current as google.maps.Map);
+            
+            const dropLat: number = dropCoords?.lat() ?? 0;
+            const dropLng: number = dropCoords?.lng() ?? 0;
+            updateOffice({ lat: dropLat, lng: dropLng})
+            return { name: 'Dustbin', dropLat, dropLng }
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
+    }))
+
+    const isActive = canDrop && isOver
+    let backgroundColor = '#222'
+    if (isActive) {
+        backgroundColor = 'darkgreen'
+    } else if (canDrop) {
+        backgroundColor = 'darkkhaki'
+    }
+
     return (
-        <GoogleMap
-            mapContainerClassName='map-container'
-            center={center}
-            zoom={10}
-            options={mapOptions}
-            onLoad={onLoad}
-        >
-            {
-                office && <MarkerF position={office} icon={'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'} />
-            }
-        </GoogleMap>
+        <div ref={(el) => {drop(el); dropTargetRef.current = el;}} style={{ backgroundColor }} data-testid="dustbin">
+            <GoogleMap
+                mapContainerClassName='map-container'
+                center={center}
+                zoom={10}
+                options={mapOptions}
+                onLoad={onLoad}
+            //
+
+            >
+                {
+                    office && <MarkerF position={office} icon={'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'} />
+                }
+            </GoogleMap>
+        </div>
     )
 }
 
