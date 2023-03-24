@@ -1,7 +1,9 @@
-import React, {useReducer} from "react";
-import {LoadScript} from '@react-google-maps/api'
+import React, { useReducer } from "react";
+import { LoadScript } from '@react-google-maps/api'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import envVars from "../../../lib/env-vars";
-import {libraries} from "./map-options";
+import { libraries } from "./map-options";
 import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
@@ -14,7 +16,7 @@ export type MapDataState = {
 };
 
 type Action =
-    | { type: 'nada' }
+    | { type: 'set-person' }
     | { type: 'set-office'; payload: google.maps.LatLngLiteral };
 
 const initialState = (): MapDataState => ({
@@ -23,7 +25,7 @@ const initialState = (): MapDataState => ({
 
 function reducer(state: MapDataState, action: Action): MapDataState {
     switch (action.type) {
-        case 'nada':
+        case 'set-person':
             return { ...state };
         case 'set-office':
             return { ...state, office: action.payload };
@@ -45,16 +47,18 @@ const MapPage = () => {
             libraries={libraries}
             preventGoogleFontsLoading={false}
         >
-            <Layout
-                setOffice={
-                    office => dispatch({ type: 'set-office', payload: office })
-                }
-                main={
-                    <Map
-                        mapDataState={state}
-                    />
-                }
-            />
+            <DndProvider backend={HTML5Backend}>
+                <Layout
+                    setOffice={
+                        office => dispatch({ type: 'set-office', payload: office })
+                    }
+                    main={
+                        <Map
+                            mapDataState={state}
+                        />
+                    }
+                />
+            </DndProvider>
         </LoadScript>
     )
 }
