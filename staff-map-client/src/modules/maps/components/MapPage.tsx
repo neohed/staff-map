@@ -7,20 +7,22 @@ import { libraries } from "./map-options";
 import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
+import type { MapPlace } from "./types";
+import { PlaceTypes } from "./types";
 
 const onLoad = () => console.log('gmaps scripts loaded')
 const onError = (err: Error) => console.log('onError: ', err)
 
 export type MapDataState = {
-    office: google.maps.LatLngLiteral | undefined;
+    office: MapPlace[];
 };
 
 type Action =
     | { type: 'set-person' }
-    | { type: 'set-office'; payload: google.maps.LatLngLiteral };
+    | { type: 'set-office'; payload: MapPlace };
 
 const initialState = (): MapDataState => ({
-    office: undefined,
+    office: [],
 })
 
 function reducer(state: MapDataState, action: Action): MapDataState {
@@ -28,7 +30,7 @@ function reducer(state: MapDataState, action: Action): MapDataState {
         case 'set-person':
             return { ...state };
         case 'set-office':
-            return { ...state, office: action.payload };
+            return { ...state, office: [...state.office, action.payload] };
     }
 }
 
@@ -50,11 +52,14 @@ const MapPage = () => {
             <DndProvider backend={HTML5Backend}>
                 <Layout
                     setOffice={
-                        office => dispatch({ type: 'set-office', payload: office })
+                        office => dispatch({ type: 'set-office', payload: { type: 'Office', lat: office.lat, lng: office.lng} })
                     }
                     main={
                         <Map
                             mapDataState={state}
+                            setOffice={
+                                office => dispatch({ type: 'set-office', payload: { type: 'Office', lat: office.lat, lng: office.lng} })
+                            }
                         />
                     }
                 />
