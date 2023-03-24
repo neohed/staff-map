@@ -1,7 +1,7 @@
 import React, {useRef, useCallback, useState, useEffect} from 'react'
 import {
     GoogleMap,
-    Marker,
+    MarkerF,
     /*
     DirectionsRenderer,
     Circle,
@@ -48,7 +48,7 @@ function GoogleMapWrapper({mapDataState}: Props) {
             onLoad={onLoad}
         >
             {
-                office && <Marker position={office} icon={'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'} />
+                office && <MarkerF position={office} icon={'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'} />
             }
         </GoogleMap>
     )
