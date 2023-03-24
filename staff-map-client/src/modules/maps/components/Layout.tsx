@@ -21,8 +21,6 @@ const Layout: FC<Props> = ({main, setOffice}) => {
                 <section>
                     <Toolbox />
                 </section>
-                <section>Navigate</section>
-                <section>Route</section>
             </aside>
             <main>
                 {
