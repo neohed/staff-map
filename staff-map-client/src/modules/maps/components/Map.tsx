@@ -13,7 +13,7 @@ import { center, mapOptions } from './map-options';
 import type { MapDataState } from './MapPage';
 import { PlaceTypes, MapPlace } from './types';
 import { point2LatLng } from './map-helpers';
-import pinSquare from '../../../assets/square-pin.svg'
+//import pinSquare from '../../../assets/square-pin.svg'
 import mapPin from '../../../assets/map-pin.svg'
 
 type LatLngLiteral = google.maps.LatLngLiteral;
