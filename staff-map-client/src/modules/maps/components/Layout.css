@@ -30,5 +30,12 @@ aside {
 main {
     width: 100%;
     background-color: #c0e2c5;
-    color: white;
+    color: #fff;
+}
+
+.toolbox {
+    background-color: #fff;
+    color: #252930;
+    margin: .5rem 0 .5rem 0;
+    padding: 3px;
 }

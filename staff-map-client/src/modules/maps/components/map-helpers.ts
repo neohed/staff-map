@@ -15,6 +15,7 @@ const generateHouses = (position: LatLngLiteral) => {
     return _houses;
   };
 
+  //TODO refactor out common code
   function latLng2Point(latLng: LatLngLiteral, map: Map) {
     var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
     var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());

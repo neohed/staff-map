@@ -16,8 +16,10 @@ This app requires a Google-maps API key to run. See section below for help.
 * Maps JavaScript API
 * Places API
 
-## Todo
+## Resources
 
 * https://www.youtube.com/watch?v=2po9_CIRW7I
 * https://www.youtube.com/watch?v=8kxYqoY2WwE
 * https://www.youtube.com/watch?v=-VJTh7OqoJI
+* https://developers.google.com/maps/documentation/javascript/examples/event-click-latlng
+* https://github.com/scottdejonge/map-icons

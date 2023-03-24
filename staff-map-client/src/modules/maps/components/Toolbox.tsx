@@ -1,8 +1,8 @@
 import React from 'react';
 import type { CSSProperties, FC } from 'react'
 import { useDrag } from 'react-dnd'
-
 import { PlaceTypes } from './types'
+import mapPin from '../../../assets/map-pin.svg'
 
 export interface ToolboxProps {
     //name: string
@@ -13,13 +13,8 @@ interface DropResult {
 }
 
 const style: CSSProperties = {
-    border: '1px dashed gray',
-    backgroundColor: 'white',
-    padding: '0.5rem 1rem',
-    marginRight: '1.5rem',
-    marginBottom: '1.5rem',
     cursor: 'move',
-    float: 'left',
+    background: 'transparent',
 }
 
 const name = 'Dummy Name';
@@ -40,12 +35,20 @@ const Toolbox: FC<ToolboxProps> = () => {
         }),
     }))
 
-    const opacity = isDragging ? 0.4 : 1
+    const opacity = isDragging ? 0.4 : 1;
+
     return (
-        <div>
-            <div ref={drag} style={{ ...style, opacity }} data-testid={`dave-box`}>
-                {name}
-            </div>
+        <div className='toolbox'>
+            <p>
+                Drag and drop pins:
+            </p>
+            <img
+                ref={drag}
+                style={{ ...style, opacity }}
+                data-testid={`map-pin`}
+                src={mapPin}
+                alt="Map pin"
+            />
         </div>
     );
 };
