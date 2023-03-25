@@ -8,7 +8,6 @@ import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
 import type { MapPlace } from "./types";
-import { PlaceTypes } from "./types";
 
 const onLoad = () => console.log('gmaps scripts loaded')
 const onError = (err: Error) => console.log('onError: ', err)
