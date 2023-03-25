@@ -1,3 +1,5 @@
+import React from "react";
+import type { FC } from 'react'
 import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
@@ -9,7 +11,7 @@ type PlacesProps = {
     getPlace: (position: google.maps.LatLngLiteral) => void;
 }
 
-export default function Places({getPlace}: PlacesProps) {
+const Places: FC<PlacesProps> = ({getPlace}) => {
     const {
         ready,
         value,
@@ -55,3 +57,5 @@ export default function Places({getPlace}: PlacesProps) {
         </div>
     )
 }
+
+export default Places
