@@ -47,7 +47,7 @@ const Places: FC<PlacesProps> = ({getPlace}) => {
                     readOnly={!ready}
                 />
                 <Combobox.Options>
-                    {status === "OK" && data.map(({place_id, description}) => (
+                    {status === "OK" && data.map(({place_id, description}: {place_id: string, description: string}) => (
                         <Combobox.Option key={place_id} value={description}>
                             {description}
                         </Combobox.Option>
