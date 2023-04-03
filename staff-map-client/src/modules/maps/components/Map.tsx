@@ -2,18 +2,12 @@ import React, { useRef, useCallback } from 'react'
 import {
     GoogleMap,
     MarkerF,
-    /*
-    DirectionsRenderer,
-    Circle,
-    MarkerClusterer,
-     */
 } from '@react-google-maps/api';
 import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
 import type { MapDataState } from './MapPage';
 import { PlaceTypes, MapPlace } from './types';
 import { point2LatLng } from './map-helpers';
-//import pinSquare from '../../../assets/square-pin.svg'
 import mapPin from '../../../assets/map-pin.svg'
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -81,7 +75,10 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
     }
 
     return (
-        <div ref={(el) => { drop(el); dropTargetRef.current = el; }} style={{ backgroundColor }} data-testid="dustbin">
+        <div ref={(el) => { drop(el); dropTargetRef.current = el; }}
+            style={{ backgroundColor }}
+            data-testid="dustbin"
+        >
             <GoogleMap
                 mapContainerClassName='map-container'
                 center={center}

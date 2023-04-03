@@ -26,3 +26,39 @@ model Role {
 
     users   User[]
 }
+
+model PlaceType {
+    id    Int    @id @default(autoincrement())
+    name  String @unique
+
+    places  Place[]
+}
+
+model Place {
+    id          String @id @default(cuid())
+    lat         Float
+    lng         Float
+    name        String
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    placeTypeId Int
+    placeType   PlaceType @relation(fields: [placeTypeId], references: [id])
+
+    fromJourney Journey[]   @relation(name: "fromPlace")
+    toJourney   Journey[]   @relation(name: "toPlace")
+}
+
+model Journey {
+    id          String @id @default(cuid())
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    fromPlaceId String
+    fromPlace   Place   @relation(name: "fromPlace", fields: [fromPlaceId], references: [id])
+
+    toPlaceId   String
+    toPlace     Place   @relation(name: "toPlace", fields: [toPlaceId], references: [id])
+}
