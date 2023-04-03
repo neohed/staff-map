@@ -33,7 +33,7 @@ function generateToken(user: UserRoles) {
         signInUser as object,
         process.env.MY_JWT_SECRET as Secret, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
-        });
+        })
 }
 
 function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: NextFunction) {
@@ -46,13 +46,13 @@ function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: Next
             return res.status(401).json({
                 error: true,
                 message: "Invalid user."
-            });
+            })
         } else {
             req.user = user as UserRoles; //set the user to req so other routes can use it
 
-            next();
+            next()
         }
-    });
+    })
 }
 
 function cerberusGuard(req: AuthRequest, res: Response, next: NextFunction) {
