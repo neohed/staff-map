@@ -1,7 +1,7 @@
-import { memo} from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
-import {GoogleMap, TransitLayer, useJsApiLoader} from '@react-google-maps/api'
-import {MapProps} from "../modules/maps";
+import { GoogleMap, TransitLayer, useJsApiLoader, MarkerClustererF, MarkerF } from '@react-google-maps/api'
+import { MapProps } from "../modules/maps";
 import envVars from "../lib/env-vars";
 import MapLoading from "./MapLoading";
 
@@ -54,6 +54,7 @@ function ExampleTransit({ styles }: MapProps): JSX.Element {
         setMap(null)
     }, [])
      */
+    const offices: number[] = [1, 2, 3];
 
     return (
         <div className='map'>
@@ -66,11 +67,26 @@ function ExampleTransit({ styles }: MapProps): JSX.Element {
                     onClick={onClick}
                     onLoad={onMapLoad}
                 >
-                { /*
+                    { /*
                    * onUnmount={onUnmount}
                    * Child components, such as markers, info windows, etc.
                    *
                    */ }
+                    <MarkerClustererF>
+                        {
+                            (clusterer) => <>
+                                {
+                                    offices.map((n: number) => (
+                                        <MarkerF
+                                            key={n.toString()}
+                                            position={{ lat: 1.0, lng: 1.0 }}
+                                            clusterer={clusterer}
+                                        />
+                                    ))
+                                }
+                            </>
+                        }
+                    </MarkerClustererF>
                     <TransitLayer onLoad={onTransitLayerLoad} />
                 </GoogleMap>
             </div>
