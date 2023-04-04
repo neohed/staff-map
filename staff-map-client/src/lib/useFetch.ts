@@ -24,7 +24,7 @@ function useFetch(url: string, skip: boolean = false) {
                     const res = await response.json();
 
                     if (abortController.signal.aborted) {
-                        return;
+                        return
                     }
 
                     setData(res)
@@ -37,7 +37,7 @@ function useFetch(url: string, skip: boolean = false) {
         !skip && fetchData()
 
         return () => {
-            abortController.abort();
+            abortController.abort()
         }
     }, [url, setData, skip])
 
