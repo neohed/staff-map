@@ -19,6 +19,7 @@ type Place = {
     lat: number;
     lng: number;
     name: string;
+    type: string;
 }
 type PlaceData = {
     places: Place[]
