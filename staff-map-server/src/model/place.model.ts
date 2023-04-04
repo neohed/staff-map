@@ -1,9 +1,15 @@
-import type { Place } from "@prisma/client";
+import type { Place, PlaceType } from "@prisma/client";
 
 import prisma from "./db";
 
-async function selectPlaces(): Promise<Place[]> {
-    return await prisma.place.findMany()
+export type PlaceTypes = Place & {
+    placeType: PlaceType
+}
+
+async function selectPlaces(): Promise<PlaceTypes[]> {
+    return await prisma.place.findMany({
+        include: { placeType: true },
+    })
 }
 
 export {
