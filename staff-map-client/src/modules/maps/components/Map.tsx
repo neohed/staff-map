@@ -16,7 +16,7 @@ type LatLngLiteral = google.maps.LatLngLiteral;
 
 type Props = {
     mapDataState: MapDataState;
-    setOffice: (position: google.maps.LatLngLiteral) => void;
+    setOffice: (position: LatLngLiteral) => void;
 }
 
 const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
