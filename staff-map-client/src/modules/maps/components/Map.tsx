@@ -33,23 +33,21 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
     const mapRef = useRef<google.maps.Map>();
     const placeData = useFetch('/map/place') as PlaceData;
 
-    useEffect(() => {
-        const {places} = placeData;
-        if (places) {
-            places.map(({lat, lng}) => setOffice({lat, lng}))
-        }
-    }, [placeData])
-
-    const onLoad = useCallback((map: google.maps.Map) => {
-        mapRef.current = map
-    }, []);
-
     const updateOffice = useCallback((position: LatLngLiteral) => {
         setOffice(position);
         mapRef.current?.panTo(position)
     }, []);
 
-    const { office } = mapDataState;
+    useEffect(() => {
+        const {places} = placeData;
+        if (places) {
+            places.map(({lat, lng}) => updateOffice({lat, lng}))
+        }
+    }, [placeData, updateOffice])
+
+    const onLoad = useCallback((map: google.maps.Map) => {
+        mapRef.current = map
+    }, []);
 
     const dropTargetRef = useRef<HTMLDivElement | null>();
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
@@ -71,6 +69,7 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
     const backgroundColor = isActive
         ? 'darkgreen'
         : 'darkkhaki';
+    const { office } = mapDataState;
 
     return (
         <div ref={(el) => { drop(el); dropTargetRef.current = el; }}
