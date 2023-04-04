@@ -8,6 +8,10 @@ export interface ToolboxProps {
     //name: string
 }
 
+export type DropItem = {
+    name: string;
+}
+
 interface DropResult {
     name: string
 }

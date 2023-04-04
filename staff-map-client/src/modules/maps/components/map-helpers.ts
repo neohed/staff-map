@@ -3,18 +3,6 @@ import type { XYCoord } from "react-dnd";
 type LatLngLiteral = google.maps.LatLngLiteral;
 type Map = google.maps.Map;
 
-const generateHouses = (position: LatLngLiteral) => {
-  const _houses: Array<LatLngLiteral> = [];
-  for (let i = 0; i < 100; i++) {
-    const direction = Math.random() < 0.5 ? -2 : 2;
-    _houses.push({
-      lat: position.lat + Math.random() / direction,
-      lng: position.lng + Math.random() / direction,
-    });
-  }
-  return _houses;
-}
-
 type MapProjection = {
   topRight: google.maps.Point | null;
   bottomLeft: google.maps.Point | null;
@@ -33,7 +21,7 @@ function getMapProjection(map: Map): MapProjection {
   }
 }
 
-export function getDropPoint(dropOffset: XYCoord, dropTargetRect: DOMRect) {
+function getDropPoint(dropOffset: XYCoord, dropTargetRect: DOMRect) {
   const offsetX: number = dropOffset.x - dropTargetRect.left;
   const offsetY: number = dropOffset.y - dropTargetRect.top;
 
@@ -55,7 +43,7 @@ function point2LatLng(point: google.maps.Point, map: Map) {
 }
 
 export {
-  generateHouses,
+  getDropPoint,
   latLng2Point,
   point2LatLng,
 }
