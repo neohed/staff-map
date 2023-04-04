@@ -4,11 +4,12 @@ import { selectPlaces } from '../model/place.model';
 async function getPlaces(req: Request, res: Response): Promise<any> {
     const places = await selectPlaces();
     return res.json({
-        places: places.map(({ id, lat, lng, name }) => ({
+        places: places.map(({ id, lat, lng, name, placeType }) => ({
             id,
             lat,
             lng,
-            name
+            name,
+            type: placeType.name
         }))
     });
 }
