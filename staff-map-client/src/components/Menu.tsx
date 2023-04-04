@@ -1,9 +1,9 @@
-import React from "react";
+import type { FC } from 'react'
 import {NavLink} from 'react-router-dom'
 import {useAuth} from '../modules/account';
 import "./Menu.css"
 
-const Menu = () => {
+const Menu: FC = () => {
     const isAuthenticated = useAuth();
 
     return (

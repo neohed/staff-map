@@ -1,11 +1,15 @@
-import React from 'react';
+import type { FC } from 'react'
 import {
     Navigate,
     useLocation
 } from 'react-router-dom'
 import useAuth from "./useAuth";
 
-function AuthRoute({ children }: { children: JSX.Element }) {
+type Props = {
+    children: JSX.Element;
+}
+
+const AuthRoute: FC<Props> = ({ children }) => {
     let isAuthenticated = useAuth();
     let location = useLocation();
 

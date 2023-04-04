@@ -1,4 +1,3 @@
-import React from 'react';
 import type { CSSProperties, FC } from 'react'
 import { useDrag } from 'react-dnd'
 import { PlaceTypes } from './types'
