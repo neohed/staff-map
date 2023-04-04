@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import type { FC } from 'react'
 import type {LoginValues} from "./authProvider";
 import {
     useLocation,
@@ -8,7 +9,7 @@ import SetValueContext from '../../../lib/SetValueContext'
 import authProvider from './authProvider';
 import './Form.css'
 
-function Login() {
+const Login: FC = () => {
     const {setValue} = useContext(SetValueContext)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState('');

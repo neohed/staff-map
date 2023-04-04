@@ -1,4 +1,5 @@
-import React, { useReducer } from "react";
+import { useReducer } from "react";
+import type { FC } from 'react'
 import { LoadScript } from '@react-google-maps/api'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -33,7 +34,7 @@ function reducer(state: MapDataState, action: Action): MapDataState {
     }
 }
 
-const MapPage = () => {
+const MapPage: FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState());
 
     return (

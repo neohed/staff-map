@@ -1,6 +1,6 @@
-import React from 'react';
+import type { FC } from 'react'
 
-const MapLoading = () => {
+const MapLoading: FC = () => {
     return (
         <div>
             Map is loading...
