@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 import type { FC } from 'react'
 import type { MapDataState } from './MapPage';
 import type { DropItem } from './Toolbox';
@@ -14,6 +14,15 @@ import useFetch from '../../../lib/useFetch';
 import mapPin from '../../../assets/map-pin.svg'
 
 type LatLngLiteral = google.maps.LatLngLiteral;
+type Place = {
+    id: string;
+    lat: number;
+    lng: number;
+    name: string;
+}
+type PlaceData = {
+    places: Place[]
+}
 
 type Props = {
     mapDataState: MapDataState;
@@ -22,8 +31,14 @@ type Props = {
 
 const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
     const mapRef = useRef<google.maps.Map>();
-    const placeData = useFetch('/map/place')
-    console.log(placeData)
+    const placeData = useFetch('/map/place') as PlaceData;
+
+    useEffect(() => {
+        const {places} = placeData;
+        if (places) {
+            places.map(({lat, lng}) => setOffice({lat, lng}))
+        }
+    }, [placeData])
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map
