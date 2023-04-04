@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 import type { MapDataState } from './MapPage';
-import type {DropItem} from './Toolbox';
+import type { DropItem } from './Toolbox';
 import {
     GoogleMap,
     MarkerF,
@@ -32,14 +32,12 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
 
     const { office } = mapDataState;
 
-    //TODO Create a DropWrapper?
-
     const dropTargetRef = useRef<HTMLDivElement | null>();
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: PlaceTypes.Office,
         drop: (item: DropItem, monitor) => {
             const mapDropPoint = getDropMapPoint(monitor, dropTargetRef.current, mapRef.current);
-            
+
             updateOffice(mapDropPoint);
 
             return { name: 'Dustbin', ...mapDropPoint }
@@ -50,8 +48,8 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
         }),
     }))
 
-    const isActive = canDrop && isOver
-    let backgroundColor = '#222'
+    const isActive = canDrop && isOver;
+    let backgroundColor = '#222';
     if (isActive) {
         backgroundColor = 'darkgreen'
     } else if (canDrop) {
