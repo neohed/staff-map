@@ -49,12 +49,9 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
     }))
 
     const isActive = canDrop && isOver;
-    let backgroundColor = '#222';
-    if (isActive) {
-        backgroundColor = 'darkgreen'
-    } else if (canDrop) {
-        backgroundColor = 'darkkhaki'
-    }
+    const backgroundColor = isActive
+        ? 'darkgreen'
+        : 'darkkhaki';
 
     return (
         <div ref={(el) => { drop(el); dropTargetRef.current = el; }}
