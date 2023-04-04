@@ -1,4 +1,5 @@
 import React, { useRef, useCallback } from 'react'
+import type { FC } from 'react'
 import type { MapDataState } from './MapPage';
 import type { DropItem } from './Toolbox';
 import {
@@ -18,7 +19,7 @@ type Props = {
     setOffice: (position: google.maps.LatLngLiteral) => void;
 }
 
-function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
+const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
     const mapRef = useRef<google.maps.Map>();
 
     const onLoad = useCallback((map: google.maps.Map) => {
