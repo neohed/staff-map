@@ -1,23 +1,30 @@
 import jwt from "jsonwebtoken";
-import type {Secret} from "jsonwebtoken";
-import type {Request, Response, NextFunction} from 'express';
-import type {UserRoles} from "../model/user.model";
+import type { Secret } from "jsonwebtoken";
+import type { Request, Response, NextFunction } from 'express';
+import type { UserRoles } from "../model/user.model";
+
+export type AuthUser = {
+    id: string;
+    name: string;
+    email: string;
+    roles: string[]
+}
 
 type AuthRequest = Request & {
-    user?: UserRoles
+    user?: AuthUser
 }
 
 // return basic user details
-function getCleanUser(user: UserRoles) {
+function getCleanUser(user: UserRoles): AuthUser {
     if (!user) return null;
 
-    const {id, name, email, roles} = user;
+    const { id, name, email, roles } = user;
 
     return {
         id,
         name,
         email,
-        roles,
+        roles: roles.map(role => role.name),
     }
 }
 
@@ -32,8 +39,8 @@ function generateToken(user: UserRoles) {
     return jwt.sign(
         signInUser as object,
         process.env.MY_JWT_SECRET as Secret, {
-            expiresIn: 60 * 60 * 24 // expires in 24 hours
-        })
+        expiresIn: 60 * 60 * 24 // expires in 24 hours
+    })
 }
 
 function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: NextFunction) {
@@ -41,14 +48,14 @@ function getUserObjectFromAuthHeader(req: AuthRequest, res: Response, next: Next
     const token = req.headers['authorization'];
     if (!token) return next(); //if no token, continue
 
-    jwt.verify(token, process.env.MY_JWT_SECRET as Secret, function (err, user) {
+    jwt.verify(token, process.env.MY_JWT_SECRET as Secret, function (err, user: AuthUser) {
         if (err) {
             return res.status(401).json({
                 error: true,
                 message: "Invalid user."
             })
         } else {
-            req.user = user as UserRoles; //set the user to req so other routes can use it
+            req.user = user;
 
             next()
         }
@@ -68,9 +75,9 @@ const authorizeRoles = (allowedRoles: string[]) => (req: AuthRequest, res: Respo
     if (user === undefined) {
         return res.status(403).json({ error: 'Cerberus, no credentials sent!' })
     }
-    const {roles} = user;
+    const { roles } = user;
 
-    if (!roles.map(role => role.name).some(role => allowedRoles.includes(role))) {
+    if (!roles.some(role => allowedRoles.includes(role))) {
         return res.status(403).json({ error: 'Cerberus, you are not authorized for this!' })
     }
 

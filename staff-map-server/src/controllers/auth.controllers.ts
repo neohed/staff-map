@@ -2,9 +2,10 @@ import bcrypt from "bcrypt"
 import type {Request, Response} from 'express';
 import {generateToken, getCleanUser} from '../lib/auth-jwt';
 import userRepo = require('../model/user.model');
-import {hashPassword} from '../lib/auth-hash';
 import jwt from 'jsonwebtoken';
-import {isEmptyString} from "../lib/strings";
+import type { AuthUser } from "../lib/auth-jwt";
+//import {hashPassword} from '../lib/auth-hash';
+//import {isEmptyString} from "../lib/strings";
 //import {EventTypes} from '../model/EventType';
 
 const EventTypes = {
@@ -47,7 +48,7 @@ async function postLogin(req: Request, res: Response) {
         });
     }
 
-    const userEntity = await userRepo.getUserByEmail(email);
+    const userEntity = await userRepo.selectUserByEmail(email);
 
     if (userEntity === null) {
         return res.status(400).json({
@@ -55,20 +56,12 @@ async function postLogin(req: Request, res: Response) {
             message: "No user."
         });
     }
-    const iP_Address = req.socket.remoteAddress;
+    //const iP_Address = req.socket.remoteAddress;
 
     // Return 401 status if the credentials do not match.
     bcrypt.compare(password, userEntity.password, function(err, result) {
         // *** Login FAIL!
         if (err || !result) {
-            /*
-            userRepo.addUserEvent({
-                userId: userEntity.id,
-                eventTypeId: EventTypes.LoginFailure,
-                iP_Address
-            });
-             */
-
             return res.status(401).json({
                 error: true,
                 message: "Username or Password is wrong."
@@ -76,13 +69,6 @@ async function postLogin(req: Request, res: Response) {
         }
 
         // *** Login SUCCESS!
-        /*
-        userRepo.addUserEvent({
-            userId: userEntity.id,
-            eventTypeId: EventTypes.LoginSuccess,
-            iP_Address
-        });
-         */
         // generate token
         const token = generateToken(userEntity);
         // get basic user details
@@ -95,7 +81,7 @@ async function postLogin(req: Request, res: Response) {
 
 async function getVerifyToken(req: Request, res: Response) {
     // check header or url parameters or post parameters for token
-    const token = req.query.token;
+    const token = req.query.token.toString();
     if (!token) {
         return res.status(400).json({
             error: true,
@@ -103,19 +89,17 @@ async function getVerifyToken(req: Request, res: Response) {
         });
     }
 
-    throw Error('Kaboom!')
-    /*
     // check token that was passed by decoding token using secret
-    jwt.verify(token, process.env.JWT_SECRET, async function (err, user) {
+    jwt.verify(token, process.env.JWT_SECRET, async function (err, user: AuthUser) {
         if (err) return res.status(401).json({
             error: true,
             message: "Invalid token."
         });
 
-        const userEntity = await userRepo.getUserByUsername(user.userId);
+        const userEntity = await userRepo.selectUserByEmail(user.email);
 
         // return 401 status if the userId does not match.
-        if (!userEntity || user.userId !== userEntity.userId) {
+        if (!userEntity || user.id !== userEntity.id) {
             return res.status(401).json({
                 error: true,
                 message: "Invalid user."
@@ -126,8 +110,6 @@ async function getVerifyToken(req: Request, res: Response) {
         const userObj = getCleanUser(userEntity);
         return res.json({ user: userObj, token });
     });
-
-     */
 }
 
 export {

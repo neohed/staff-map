@@ -10,6 +10,7 @@ import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
 import { PlaceTypes } from './types';
 import { getDropMapPoint } from './map-helpers';
+import useFetch from '../../../lib/useFetch';
 import mapPin from '../../../assets/map-pin.svg'
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -21,6 +22,8 @@ type Props = {
 
 const GoogleMapWrapper: FC<Props> = ({ mapDataState, setOffice }) => {
     const mapRef = useRef<google.maps.Map>();
+    const placeData = useFetch('/map/place')
+    console.log(placeData)
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map

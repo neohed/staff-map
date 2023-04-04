@@ -1,6 +1,6 @@
 import envVars from "./env-vars";
 
-function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType: string | undefined}) {
+function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType?: string | undefined}) {
     const headers = new Headers();
 
     if (contentType) {
@@ -82,6 +82,7 @@ async function doFetch(url: string, postData: object, options: FetchOptionParams
 }
 
 export {
+    getFetchHeaders,
     getUrl,
     getFetchOptions,
     doFetch,

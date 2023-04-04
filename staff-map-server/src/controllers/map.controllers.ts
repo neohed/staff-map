@@ -1,11 +1,18 @@
-import type {Request, Response} from 'express';
+import type { Request, Response } from 'express';
+import { selectPlaces } from '../model/place.model';
 
-async function getMaps(req: Request, res: Response) {
+async function getPlaces(req: Request, res: Response): Promise<any> {
+    const places = await selectPlaces();
     return res.json({
-        maps: []
+        places: places.map(({ id, lat, lng, name }) => ({
+            id,
+            lat,
+            lng,
+            name
+        }))
     });
 }
 
 export {
-    getMaps,
+    getPlaces,
 }
