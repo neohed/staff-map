@@ -53,7 +53,7 @@ const Toolbox: FC<ToolboxProps> = () => {
                 alt="Map pin"
             />
         </div>
-    );
-};
+    )
+}
 
 export default Toolbox;
