@@ -24,7 +24,6 @@ type Place = {
 type PlaceData = {
     places: Place[]
 }
-
 type Props = {
     mapDataState: MapDataState;
     setOffice: (position: LatLngLiteral) => void;
