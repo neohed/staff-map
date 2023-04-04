@@ -7,7 +7,7 @@ import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
 import type { MapDataState } from './MapPage';
 import { PlaceTypes, MapPlace } from './types';
-import { point2LatLng } from './map-helpers';
+import { getDropPoint, point2LatLng } from './map-helpers';
 import mapPin from '../../../assets/map-pin.svg'
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -39,19 +39,11 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
         drop: (item, monitor) => {
             // Get the dropped item's client offset
             const dropOffset = monitor.getClientOffset();
-
+console.log({item})
             // Get the drop target's bounding client rect
             const dropTargetRect = dropTargetRef.current?.getBoundingClientRect();
 
-            // Calculate the relative x and y offset
-            const offsetX: number = (dropOffset !== null && dropTargetRect !== undefined)
-                ? dropOffset.x - dropTargetRect.left
-                : 0;
-            const offsetY: number = (dropOffset !== null && dropTargetRect !== undefined)
-                ? dropOffset.y - dropTargetRect.top
-                : 0;
-
-            const dropPoint: google.maps.Point = new google.maps.Point(offsetX, offsetY);
+            const dropPoint: google.maps.Point = getDropPoint(dropOffset, dropTargetRect);
 
             const dropCoords = point2LatLng(dropPoint, mapRef.current as google.maps.Map);
 
@@ -102,9 +94,6 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
     )
 }
 
-/*
- * https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png
- */
 const Map = React.memo(GoogleMapWrapper)
 
 export default Map
