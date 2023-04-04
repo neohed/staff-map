@@ -54,6 +54,9 @@ function ExampleTransit({ styles }: MapProps): JSX.Element {
         setMap(null)
     }, [])
      */
+    const fetchDirections = (position: google.maps.LatLngLiteral) => {
+
+    }
     const offices: number[] = [1, 2, 3];
 
     return (
@@ -81,6 +84,7 @@ function ExampleTransit({ styles }: MapProps): JSX.Element {
                                             key={n.toString()}
                                             position={{ lat: 1.0, lng: 1.0 }}
                                             clusterer={clusterer}
+                                            onClick={() => fetchDirections({ lat: 1.0, lng: 1.0 })}
                                         />
                                     ))
                                 }
