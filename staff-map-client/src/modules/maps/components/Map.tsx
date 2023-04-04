@@ -1,12 +1,14 @@
 import React, { useRef, useCallback } from 'react'
+import type { MapDataState } from './MapPage';
+import type { XYCoord } from 'react-dnd'
+import type {DropItem} from './Toolbox';
 import {
     GoogleMap,
     MarkerF,
 } from '@react-google-maps/api';
 import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
-import type { MapDataState } from './MapPage';
-import { PlaceTypes, MapPlace } from './types';
+import { PlaceTypes } from './types';
 import { getDropPoint, point2LatLng } from './map-helpers';
 import mapPin from '../../../assets/map-pin.svg'
 
@@ -36,19 +38,20 @@ function GoogleMapWrapper({ mapDataState, setOffice }: Props) {
     const dropTargetRef = useRef<HTMLDivElement | null>();
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: PlaceTypes.Office,
-        drop: (item, monitor) => {
+        drop: (item: DropItem, monitor) => {
             // Get the dropped item's client offset
             const dropOffset = monitor.getClientOffset();
-console.log({item})
+
             // Get the drop target's bounding client rect
             const dropTargetRect = dropTargetRef.current?.getBoundingClientRect();
 
-            const dropPoint: google.maps.Point = getDropPoint(dropOffset, dropTargetRect);
+            const dropPoint: google.maps.Point = getDropPoint(dropOffset as XYCoord, dropTargetRect as DOMRect);
 
             const dropCoords = point2LatLng(dropPoint, mapRef.current as google.maps.Map);
 
             const dropLat: number = dropCoords?.lat() ?? 0;
             const dropLng: number = dropCoords?.lng() ?? 0;
+            
             updateOffice({ lat: dropLat, lng: dropLng })
             return { name: 'Dustbin', dropLat, dropLng }
         },
