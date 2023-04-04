@@ -1,4 +1,5 @@
-import type { XYCoord } from "react-dnd";
+import type { DropTargetMonitor, XYCoord } from "react-dnd";
+import type { DropItem } from "./Toolbox";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type Map = google.maps.Map;
@@ -21,7 +22,7 @@ function getMapProjection(map: Map): MapProjection {
   }
 }
 
-function getDropPoint(dropOffset: XYCoord, dropTargetRect: DOMRect) {
+function getDropScreenPoint(dropOffset: XYCoord, dropTargetRect: DOMRect) {
   const offsetX: number = dropOffset.x - dropTargetRect.left;
   const offsetY: number = dropOffset.y - dropTargetRect.top;
 
@@ -42,8 +43,24 @@ function point2LatLng(point: google.maps.Point, map: Map) {
   return map.getProjection().fromPointToLatLng(worldPoint)
 }
 
+export function getDropMapPoint(monitor: DropTargetMonitor<DropItem, unknown>, dropTarget: HTMLDivElement, map: Map): LatLngLiteral {
+  // Get the dropped item's client offset
+  const dropOffset = monitor.getClientOffset() as XYCoord;
+
+  // Get the drop target's bounding client rect
+  const dropTargetRect = dropTarget.getBoundingClientRect() as DOMRect;
+  const dropPoint: google.maps.Point = getDropScreenPoint(dropOffset, dropTargetRect);
+  const dropCoords = point2LatLng(dropPoint, map);
+
+  return {
+    lat: dropCoords?.lat() ?? 0,
+    lng: dropCoords?.lng() ?? 0
+  }
+}
+
 export {
-  getDropPoint,
+  getDropScreenPoint,
+  //getDropMapPoint,
   latLng2Point,
   point2LatLng,
 }
