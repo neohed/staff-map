@@ -1,5 +1,7 @@
 import envVars from "./env-vars";
 
+type HttpMethod = "GET" | "HEAD" | "POST" | "DELETE" | "PUT" | "PATCH";
+
 function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType?: string | undefined}) {
     const headers = new Headers();
 
@@ -32,11 +34,11 @@ const getQuerystring = (properties: object) => '?' + Object.entries(properties).
 
 type FetchOptionParams = {
     token: string;
-    method: string;
-    contentType: string;
+    method: HttpMethod;
+    contentType?: string;
+    setContentType?: boolean;
     isPost?: boolean;
     stringify?: boolean;
-    setContentType?: boolean;
 }
 
 function getFetchOptions(postData: object, options?: FetchOptionParams): RequestInit {
@@ -60,7 +62,7 @@ function getFetchOptions(postData: object, options?: FetchOptionParams): Request
     if (postData) {
         fetchOptions.body = stringify
             ? JSON.stringify(postData) as BodyInit
-            : postData as BodyInit;
+            : postData as BodyInit
     }
 
     return fetchOptions
@@ -73,11 +75,11 @@ async function doFetch(url: string, postData: object, options: FetchOptionParams
     );
 
     if (response.ok) {
-        return await response.json();
+        return await response.json()
     } else {
         const errorMessage = await response.text();
 
-        throw new Error(errorMessage)
+        throw Error(errorMessage)
     }
 }
 

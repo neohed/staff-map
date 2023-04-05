@@ -20,7 +20,7 @@ async function getPlaces(req: Request, res: Response): Promise<any> {
 
 async function addPlace(req: Request<{}, {}, PlaceViewModel>, res: Response): Promise<any> {
     const { body } = req;
-    const { lat, lng, name, placeType } = body;
+    const { lat, lng, name, type } = body;
 
     try {
         const place = await insertPlace({
@@ -28,17 +28,17 @@ async function addPlace(req: Request<{}, {}, PlaceViewModel>, res: Response): Pr
             lng,
             name
         },
-            placeType
+            type
         )
 
-        res.status(StatusCodes.OK).json({
+        return res.status(StatusCodes.OK).json({
             place
         })
     } catch (err) {
         logger.error(err)
-    }
 
-    return res.status(StatusCodes.SERVER_ERROR)
+        return res.status(StatusCodes.SERVER_ERROR)
+    }
 }
 
 export {
