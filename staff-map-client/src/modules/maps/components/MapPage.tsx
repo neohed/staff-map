@@ -1,5 +1,6 @@
 import { useReducer, useCallback } from "react";
 import type { FC } from 'react'
+import type { MapPlace, AddMapMarker } from "./types";
 import { LoadScript } from '@react-google-maps/api'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -8,14 +9,13 @@ import { libraries } from "./map-options";
 import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
-import type { MapPlace, AddMapMarker } from "./types";
 
 const onLoad = () => console.log('gmaps scripts loaded')
-const onError = (err: Error) => console.log('onError: ', err)
+const onError = (err: Error) => console.error(err)
 
 export type MapDataState = {
     office: MapPlace[];
-};
+}
 type Action =
     | { type: 'nill' }
     | { type: 'add-marker'; payload: MapPlace };

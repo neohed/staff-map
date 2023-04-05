@@ -1,6 +1,6 @@
 import type { CSSProperties, FC } from 'react'
-import { useDrag } from 'react-dnd'
 import type { MapPlaceType } from './types';
+import { useDrag } from 'react-dnd'
 
 export type DropItem = {
     name: string;
@@ -11,15 +11,15 @@ interface DropResult {
     name: string
 }
 
-const style: CSSProperties = {
-    cursor: 'move',
-    background: 'transparent',
-}
-
 interface DragItemProps {
     title: string;
     type: MapPlaceType;
     icon: string;
+}
+
+const style: CSSProperties = {
+    cursor: 'move',
+    background: 'transparent',
 }
 
 const DragItem: FC<DragItemProps> = ({ title, type, icon }) => {
@@ -30,8 +30,6 @@ const DragItem: FC<DragItemProps> = ({ title, type, icon }) => {
             type
         },
         end: (item, monitor) => {
-console.log('DragItem end', item);
-
             const dropResult = monitor.getDropResult<DropResult>()
             if (item && dropResult) {
                 console.log(`You dropped ${item.name} onto ${dropResult.name}!`)
