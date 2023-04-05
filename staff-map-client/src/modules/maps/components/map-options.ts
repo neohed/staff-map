@@ -1,4 +1,5 @@
 import {Libraries} from "@react-google-maps/api/dist/utils/make-load-script-url";
+import { PlaceTypes } from "./types";
 
 const center: google.maps.LatLngLiteral = {
     lat: 51.50052933987512,
@@ -13,7 +14,7 @@ const mapOptions: google.maps.MapOptions = {
 }
 
 const defaultOptions = {
-    strokeOpacity: 0.5,
+    strokeOpacity: .5,
     strokeWeight: 2,
     clickable: false,
     draggable: false,
@@ -24,7 +25,7 @@ const defaultOptions = {
 const closeOptions = {
     ...defaultOptions,
     zIndex: 3,
-    fillOpacity: 0.05,
+    fillOpacity: .05,
     strokeColor: "#8BC34A",
     fillColor: "#8BC34A",
 }
@@ -32,7 +33,7 @@ const closeOptions = {
 const middleOptions = {
     ...defaultOptions,
     zIndex: 2,
-    fillOpacity: 0.05,
+    fillOpacity: .05,
     strokeColor: "#FBC02D",
     fillColor: "#FBC02D",
 }
@@ -40,7 +41,7 @@ const middleOptions = {
 const farOptions = {
     ...defaultOptions,
     zIndex: 1,
-    fillOpacity: 0.05,
+    fillOpacity: .05,
     strokeColor: "#FF5252",
     fillColor: "#FF5252",
 }

@@ -17,14 +17,21 @@ interface MapProps {
     styles: MapStyles;
 }
 
+type MapPlaceType = keyof typeof PlaceTypes;
+
 type MapPlace = {
+    id?: string;
+    name?: string;
     lat: number;
     lng: number;
-    type: keyof typeof PlaceTypes;
+    type: MapPlaceType;
 }
+
+type AddMapMarker = (position: google.maps.LatLngLiteral, type: MapPlaceType) => void;
 
 export type {
     MapStyles,
     MapProps,
     MapPlace,
+    AddMapMarker,
 }
