@@ -44,7 +44,7 @@ async function postLogin(req: Request, res: Response) {
         return res.status(400).json({
             error: true,
             message: "Username or Password is required."
-        });
+        })
     }
 
     const userEntity = await userRepo.selectUserByEmail(email);
@@ -53,7 +53,7 @@ async function postLogin(req: Request, res: Response) {
         return res.status(400).json({
             error: true,
             message: "No user."
-        });
+        })
     }
     //const iP_Address = req.socket.remoteAddress;
 
@@ -74,8 +74,8 @@ async function postLogin(req: Request, res: Response) {
         const userObj = getCleanUser(userEntity);
 
         // return the token along with user details
-        return res.json({ user: userObj, token });
-    });
+        return res.json({ user: userObj, token })
+    })
 }
 
 async function getVerifyToken(req: Request, res: Response) {
@@ -85,7 +85,7 @@ async function getVerifyToken(req: Request, res: Response) {
         return res.status(400).json({
             error: true,
             message: "Token is required."
-        });
+        })
     }
 
     // check token that was passed by decoding token using secret
@@ -107,8 +107,8 @@ async function getVerifyToken(req: Request, res: Response) {
 
         // get basic user details
         const userObj = getCleanUser(userEntity);
-        return res.json({ user: userObj, token });
-    });
+        return res.json({ user: userObj, token })
+    })
 }
 
 export {
