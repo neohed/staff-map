@@ -5,7 +5,7 @@ import type {AuthUser} from "../../../lib/SetValueContext";
 const useAuth = (): AuthUser => {
     const context = useContext(SetValueContext);
 
-    return getContextValue(context, 'AUTH') as AuthUser;
+    return getContextValue(context, 'AUTH') as AuthUser
 }
 
 export default useAuth
