@@ -32,6 +32,7 @@ type AddMapMarker = (position: google.maps.LatLngLiteral, type: MapPlaceType) =>
 export type {
     MapStyles,
     MapProps,
+    MapPlaceType,
     MapPlace,
     AddMapMarker,
 }
