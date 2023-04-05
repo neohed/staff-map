@@ -4,7 +4,7 @@ import {useAuth} from '../modules/account';
 import "./Menu.css"
 
 const Menu: FC = () => {
-    const isAuthenticated = useAuth();
+    const {isAuthenticated} = useAuth();
 
     return (
         <nav>
