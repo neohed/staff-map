@@ -6,7 +6,7 @@ export type PlaceViewModel = {
     lat: number;
     lng: number;
     name: string;
-    placeType: string;
+    type: string;
 }
 
 export type PlaceAndType = Place & {

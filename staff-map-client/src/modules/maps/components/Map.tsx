@@ -10,6 +10,7 @@ import {
 import { useDrop } from 'react-dnd'
 import { center, mapOptions } from './map-options';
 import { getDropMapPoint } from './map-helpers';
+import usePost from '../../../lib/usePost';
 import useFetch from '../../../lib/useFetch';
 import officeMapPin from '../../../assets/crosshairs.svg'
 import staffMapPin from '../../../assets/map-pin.svg'
@@ -40,8 +41,14 @@ type Props = {
 const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
     const mapRef = useRef<google.maps.Map>();
     const placeData = useFetch('/map/place') as PlaceData;
+    const addPlace = usePost<MapPlace>('/map/place');
 
     const dropMarker = useCallback((position: LatLngLiteral, type: MapPlaceType) => {
+        addPlace({
+            ...position,
+            type,
+            name: 'New item'
+        });
         addMarker(position, type);
         mapRef.current?.panTo(position)
     }, []);
