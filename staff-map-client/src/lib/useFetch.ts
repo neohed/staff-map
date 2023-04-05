@@ -1,13 +1,11 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect} from "react";
 import {getUrl} from "./fetch-helpers";
-import SetValueContext, {getContextValue} from "./SetValueContext";
 import { getFetchHeaders } from "./fetch-helpers";
-import type {AuthUser} from "./SetValueContext";
+import { useAuth } from "../modules/account";
 
 function useFetch(url: string, skip: boolean = false) {
     const [data, setData] = useState({});
-    const context = useContext(SetValueContext);
-    const {token} = getContextValue(context, 'AUTH') as AuthUser;
+    const {token} = useAuth();
 
     useEffect( () => {
         const abortController = new AbortController();

@@ -10,7 +10,7 @@ type Props = {
 }
 
 const AuthRoute: FC<Props> = ({ children }) => {
-    let isAuthenticated = useAuth();
+    let {isAuthenticated} = useAuth();
     let location = useLocation();
 
     if (!isAuthenticated) {
