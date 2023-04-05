@@ -39,3 +39,7 @@ main {
     margin: .5rem 0 .5rem 0;
     padding: 3px;
 }
+
+.toolbox h1 {
+    font-size: 1em;
+}
