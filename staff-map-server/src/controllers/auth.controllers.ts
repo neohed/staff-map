@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 import type { AuthUser } from "../lib/auth-jwt";
 //import {hashPassword} from '../lib/auth-hash';
 //import {isEmptyString} from "../lib/strings";
-//import {EventTypes} from '../model/EventType';
 
 const EventTypes = {
     LoginSuccess: 1,
