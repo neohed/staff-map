@@ -37,7 +37,7 @@ async function addPlace(req: Request<{}, {}, PlaceViewModel>, res: Response): Pr
     } catch (err) {
         logger.error(err)
 
-        return res.status(StatusCodes.SERVER_ERROR)
+        return res.status(StatusCodes.SERVER_ERROR).end()
     }
 }
 
