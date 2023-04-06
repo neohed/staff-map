@@ -1,5 +1,5 @@
 import type { DropTargetMonitor, XYCoord } from "react-dnd";
-import type { DropItem } from "./DragItem";
+import type { DropItem } from "../components/DragItem";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type Map = google.maps.Map;

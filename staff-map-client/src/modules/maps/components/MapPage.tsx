@@ -1,27 +1,28 @@
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useEffect } from "react";
 import type { FC } from 'react'
-import type { MapPlace, AddMapMarker } from "./types";
+import type { MapPlace, AddMapMarker } from "../lib/types";
 import { LoadScript } from '@react-google-maps/api'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import envVars from "../../../lib/env-vars";
-import { libraries } from "./map-options";
+import { libraries } from "../lib/map-options";
 import Layout from './Layout';
 import Map from './Map';
 import MapLoading from "./MapLoading";
+import useFetch from '../../../lib/useFetch';
 
 const onLoad = () => console.log('gmaps scripts loaded')
 const onError = (err: Error) => console.error(err)
 
 export type MapDataState = {
-    office: MapPlace[];
+    places: MapPlace[];
 }
 type Action =
     | { type: 'nill' }
     | { type: 'add-marker'; payload: MapPlace };
 
 const initialState = (): MapDataState => ({
-    office: [],
+    places: [],
 })
 
 function reducer(state: MapDataState, action: Action): MapDataState {
@@ -29,14 +30,22 @@ function reducer(state: MapDataState, action: Action): MapDataState {
         case 'nill':
             return { ...state };
         case 'add-marker':
-            return { ...state, office: [...state.office, action.payload] };
+            return { ...state, places: [...state.places, action.payload] };
     }
 }
 
 const MapPage: FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState());
+    const placeData = useFetch('/map/place') as MapDataState;
 
     const addMarker = useCallback<AddMapMarker>((position, type) => dispatch({ type: 'add-marker', payload: { type, ...position} }), [])
+    
+    useEffect(() => {
+        const {places} = placeData;
+        if (places) {
+            places.map(({lat, lng, type}) => addMarker({lat, lng}, type))
+        }
+    }, [placeData, addMarker])
 
     return (
         <LoadScript
