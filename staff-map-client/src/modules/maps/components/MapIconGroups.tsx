@@ -28,6 +28,22 @@ type Props = {
 
 const MapIconGroups: FC<Props> = ({ places, type }) => (
     <>
+    {
+        places.filter(p => p.type === type).map(
+            ({ lat, lng, type }, i) => <MarkerF
+                key={i}
+                position={{ lat, lng }}
+                icon={{
+                    url: getMapIcon(type),
+                }}
+            />
+        )
+    }
+    </>
+)
+
+//TODO Clustering renders nothing!
+/*
     <MarkerClustererF>
         {
             (clusterer) => <>
@@ -46,22 +62,6 @@ const MapIconGroups: FC<Props> = ({ places, type }) => (
             </>
         }
     </MarkerClustererF>
-    </>
-)
-
-//TODO Clustering renders nothing!
-/*
-    {
-        places.filter(p => p.type === type).map(
-            ({ lat, lng, type }, i) => <MarkerF
-                key={i}
-                position={{ lat, lng }}
-                icon={{
-                    url: getMapIcon(type),
-                }}
-            />
-        )
-    }
 */
 
 export default MapIconGroups
