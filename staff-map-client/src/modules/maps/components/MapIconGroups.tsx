@@ -42,8 +42,8 @@ const MapIconGroups: FC<Props> = ({ places, type }) => (
     </>
 )
 
+//TODO Clustering renders nothing!
 /*
-
     <MarkerClustererF>
         {
             (clusterer) => <>
