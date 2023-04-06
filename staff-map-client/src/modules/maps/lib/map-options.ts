@@ -1,5 +1,4 @@
 import {Libraries} from "@react-google-maps/api/dist/utils/make-load-script-url";
-import { PlaceTypes } from "./types";
 
 const center: google.maps.LatLngLiteral = {
     lat: 51.50052933987512,
