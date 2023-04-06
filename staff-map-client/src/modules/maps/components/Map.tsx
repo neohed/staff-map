@@ -31,7 +31,7 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
         });
         addMarker(position, type);
         mapRef.current?.panTo(position)
-    }, []);
+    }, [addPlace, addMarker]);
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map
@@ -62,13 +62,13 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
     return (
         <div ref={(el) => { drop(el); dropTargetRef.current = el; }}
             style={{ backgroundColor }}
-            data-testid="dustbin"
+            data-testid="map"
         >
             <GoogleMap
                 mapContainerClassName='map-container'
                 center={center}
-                zoom={10}
                 options={mapOptions}
+                zoom={10}
                 onLoad={onLoad}
             >
                 <MapIconGroups places={places} type="Office" />
