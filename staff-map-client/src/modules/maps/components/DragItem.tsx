@@ -1,5 +1,5 @@
 import type { CSSProperties, FC } from 'react'
-import type { MapPlaceType } from './types';
+import type { MapPlaceType } from '../lib/types';
 import { useDrag } from 'react-dnd'
 
 export type DropItem = {

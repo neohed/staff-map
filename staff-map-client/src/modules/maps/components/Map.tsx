@@ -1,38 +1,19 @@
-import React, { useRef, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback } from 'react'
 import type { FC } from 'react'
 import type { MapDataState } from './MapPage';
 import type { DropItem } from './DragItem';
-import type { AddMapMarker, MapPlaceType, MapPlace } from './types';
+import type { AddMapMarker, MapPlaceType, MapPlace } from '../lib/types';
 import {
     GoogleMap,
-    MarkerF,
 } from '@react-google-maps/api';
 import { useDrop } from 'react-dnd'
-import { center, mapOptions } from './map-options';
-import { getDropMapPoint } from './map-helpers';
+import { center, mapOptions } from '../lib/map-options';
+import { getDropMapPoint } from '../lib/map-helpers';
+import MapIconGroups from './MapIconGroups';
 import usePost from '../../../lib/usePost';
-import useFetch from '../../../lib/useFetch';
-import officeMapPin from '../../../assets/crosshairs.svg'
-import staffMapPin from '../../../assets/map-pin.svg'
-import unknownMapPin from '../../../assets/zoo.svg'
-
-function getMapIcon(type: MapPlaceType) {
-    switch(type) {
-        case 'Office': {
-            return officeMapPin
-        }
-        case 'Person': {
-            return staffMapPin
-        }
-        default:
-            return unknownMapPin
-    }
-}
 
 type LatLngLiteral = google.maps.LatLngLiteral;
-type PlaceData = {
-    places: MapPlace[]
-}
+
 type Props = {
     mapDataState: MapDataState;
     addMarker: AddMapMarker;
@@ -40,7 +21,6 @@ type Props = {
 
 const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
     const mapRef = useRef<google.maps.Map>();
-    const placeData = useFetch('/map/place') as PlaceData;
     const addPlace = usePost<MapPlace>('/map/place');
 
     const dropMarker = useCallback((position: LatLngLiteral, type: MapPlaceType) => {
@@ -52,13 +32,6 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
         addMarker(position, type);
         mapRef.current?.panTo(position)
     }, []);
-
-    useEffect(() => {
-        const {places} = placeData;
-        if (places) {
-            places.map(({lat, lng, type}) => addMarker({lat, lng}, type))
-        }
-    }, [placeData, addMarker])
 
     const onLoad = useCallback((map: google.maps.Map) => {
         mapRef.current = map
@@ -84,7 +57,7 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
     const backgroundColor = isActive
         ? 'darkgreen'
         : 'darkkhaki';
-    const { office } = mapDataState;
+    const { places } = mapDataState;
 
     return (
         <div ref={(el) => { drop(el); dropTargetRef.current = el; }}
@@ -98,17 +71,8 @@ const GoogleMapWrapper: FC<Props> = ({ mapDataState, addMarker }) => {
                 options={mapOptions}
                 onLoad={onLoad}
             >
-                {
-                    office.map(
-                        ({ lat, lng, type }, i) => <MarkerF
-                            key={i}
-                            position={{ lat, lng }}
-                            icon={{
-                                url: getMapIcon(type),
-                            }}
-                        />
-                    )
-                }
+                <MapIconGroups places={places} type="Office" />
+                <MapIconGroups places={places} type="Person" />
             </GoogleMap>
         </div>
     )

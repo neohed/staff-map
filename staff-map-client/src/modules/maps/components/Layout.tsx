@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import type { AddMapMarker } from './types';
+import type { AddMapMarker } from '../lib/types';
 import Places from "./Places";
 import Toolbox from "./Toolbox";
 import "./Layout.css";
