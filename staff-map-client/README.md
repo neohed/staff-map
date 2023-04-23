@@ -2,6 +2,10 @@
 
 This app requires a Google-maps API key to run. See section below for help.
 
+## Todo
+* Use type guards to improve TS
+  * https://www.typescriptlang.org/docs/handbook/advanced-types.html
+
 ## Configuring Google Maps API Key
 
 1. Obtain an API key for google-maps:
