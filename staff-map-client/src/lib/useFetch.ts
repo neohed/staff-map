@@ -1,6 +1,5 @@
 import {useState, useEffect} from "react";
-import {getUrl} from "./fetch-helpers";
-import { getFetchHeaders } from "./fetch-helpers";
+import {buildUrl, buildFetchHeaders} from "./fetch-helpers";
 import { useAuth } from "../modules/account";
 
 function useFetch(url: string, skip: boolean = false) {
@@ -11,11 +10,11 @@ function useFetch(url: string, skip: boolean = false) {
         const abortController = new AbortController();
 
         async function fetchData() {
-            const fullUrl = getUrl(url);
+            const fullUrl = buildUrl(url);
             try {
                 const response = await fetch(fullUrl, {
                     signal: abortController.signal,
-                    headers: getFetchHeaders({token, setContentType: false})
+                    headers: buildFetchHeaders({token})
                 });
 
                 if (response.ok) {

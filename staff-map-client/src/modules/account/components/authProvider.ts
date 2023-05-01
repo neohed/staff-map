@@ -1,4 +1,4 @@
-import {getUrl, getFetchOptions} from "../../../lib/fetch-helpers";
+import {buildUrl, buildFetchOptions} from "../../../lib/fetch-helpers";
 
 export interface LoginValues {
     email: string;
@@ -8,8 +8,8 @@ export interface LoginValues {
 const authProvider = {
     async login(credentials: LoginValues) {
         const response = await fetch(
-            getUrl('auth/login'),
-            getFetchOptions(credentials)
+            buildUrl('auth/login'),
+            buildFetchOptions(credentials)
         );
 
         if (response.ok) {
