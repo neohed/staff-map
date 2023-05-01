@@ -1,14 +1,23 @@
 import envVars from "./env-vars";
 
-type HttpMethod = "GET" | "HEAD" | "POST" | "DELETE" | "PUT" | "PATCH";
+export type HttpMethod = "GET" | "HEAD" | "POST" | "DELETE" | "PUT" | "PATCH";
+export type ResponseType = "Json" | "Text" | "Blob" | "ArrayBuffer";
 
-function getFetchHeaders({token, setContentType, contentType}: {token: string | undefined, setContentType: boolean, contentType?: string | undefined}) {
+export type RequestOptions = {
+    token?: string;
+    method?: HttpMethod;
+    contentType?: string;
+    headers?: HeadersInit;
+    responseType?: ResponseType;
+    queryParams?: Record<string, any>;
+    body?: Record<string, any> | FormData;
+}
+
+function buildFetchHeaders({token, contentType}: Pick<RequestOptions, "token" | "contentType">): Headers {
     const headers = new Headers();
 
     if (contentType) {
         headers.append('Content-Type', contentType)
-    } else if (setContentType) {
-        headers.append('Content-Type', 'application/json')
     }
 
     if (token) {
@@ -18,7 +27,75 @@ function getFetchHeaders({token, setContentType, contentType}: {token: string | 
     return headers
 }
 
-function createFormDataObject(formData: object) {
+function buildUrl(url: string, queryParams?: Record<string, any>): string {
+    const fullUrl = new URL(url, envVars.REACT_APP_API_URL);
+
+    if (queryParams) {
+        Object.entries(queryParams).forEach(([key, value]) => {
+            fullUrl.searchParams.append(key, String(value));
+        })
+    }
+
+    return fullUrl.toString()
+}
+
+function buildFetchOptions(body: object | FormData, options?: RequestOptions): RequestInit {
+    const {
+        token,
+        method = "GET",
+        contentType,
+        headers,
+    } = options || {};
+
+    const fetchOptions: RequestInit = {
+        method,
+        headers: {
+            ...buildFetchHeaders({token, contentType}),
+            ...(headers ?? {}),
+        },
+    };
+
+    if (body) {
+        fetchOptions.body = body instanceof FormData
+            ? body
+            : JSON.stringify(body)
+    }
+
+    return fetchOptions
+}
+
+async function fetchData(url: string, options?: RequestOptions) {
+    const {
+        responseType = 'Text',
+        queryParams,
+        body
+    } = options || {};
+
+    const response = await fetch(
+        buildUrl(url, queryParams),
+        buildFetchOptions(body, options)
+    );
+
+    if (response.ok) {
+        switch (responseType) {
+            case 'Json':
+                return await response.json()
+            case 'Text':
+                return await response.text()
+            case 'Blob':
+                return await response.blob()
+            case 'ArrayBuffer':
+                return await response.arrayBuffer()
+        }
+    } else {
+        const errorMessage = await response.text();
+        throw Error(errorMessage)
+    }
+}
+
+const buildQuerystring = (properties: Record<string, any>) => '?' + Object.entries(properties).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&');
+
+function buildFormData(formData: Record<string, any>): FormData {
     const data = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
@@ -28,66 +105,11 @@ function createFormDataObject(formData: object) {
     return data
 }
 
-const getUrl = (url: string) => new URL(url, envVars.REACT_APP_API_URL).toString();
-
-const getQuerystring = (properties: object) => '?' + Object.entries(properties).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&');
-
-type FetchOptionParams = {
-    token: string;
-    method: HttpMethod;
-    contentType?: string;
-    setContentType?: boolean;
-    isPost?: boolean;
-    stringify?: boolean;
-}
-
-function getFetchOptions(postData: object, options?: FetchOptionParams): RequestInit {
-    const hasPostData = !!postData;
-    const isFormData = hasPostData && postData instanceof FormData;
-
-    const {
-        token,
-        method,
-        contentType,
-        isPost = false,
-        stringify = !isFormData, // Don't stringify FormData objects.
-        setContentType = !isFormData, // FormData contentType gets auto detected.
-    } = options || {};
-
-    const fetchOptions: RequestInit = {
-        method: method ?? ((isPost || hasPostData) ? 'POST' : 'GET'),
-        headers: getFetchHeaders({token, setContentType, contentType}),
-    };
-
-    if (postData) {
-        fetchOptions.body = stringify
-            ? JSON.stringify(postData) as BodyInit
-            : postData as BodyInit
-    }
-
-    return fetchOptions
-}
-
-async function doFetch(url: string, postData: object, options: FetchOptionParams) {
-    const response = await fetch(
-        getUrl(url),
-        getFetchOptions(postData, options)
-    );
-
-    if (response.ok) {
-        return await response.json()
-    } else {
-        const errorMessage = await response.text();
-
-        throw Error(errorMessage)
-    }
-}
-
 export {
-    getFetchHeaders,
-    getUrl,
-    getFetchOptions,
-    doFetch,
-    getQuerystring,
-    createFormDataObject,
+    fetchData,
+    buildQuerystring,
+    buildFormData,
+    buildUrl,
+    buildFetchHeaders,
+    buildFetchOptions,
 }
