@@ -2,32 +2,40 @@ import envVars from "./env-vars";
 
 export type HttpMethod = "GET" | "HEAD" | "POST" | "DELETE" | "PUT" | "PATCH";
 export type ResponseType = "Json" | "Text" | "Blob" | "ArrayBuffer";
+type ValueType = string | number | boolean | null | undefined;
+export type BodyType = Record<string, ValueType> | FormData;
 
 export type RequestOptions = {
     token?: string;
     method?: HttpMethod;
     contentType?: string;
-    headers?: HeadersInit;
+    headers?: Record<string, string>;
     responseType?: ResponseType;
-    queryParams?: Record<string, any>;
-    body?: Record<string, any> | FormData;
+    queryParams?: Record<string, ValueType>;
+    body?: BodyType;
 }
 
-function buildFetchHeaders({token, contentType}: Pick<RequestOptions, "token" | "contentType">): Headers {
-    const headers = new Headers();
+function buildFetchHeaders({token, contentType}: Pick<RequestOptions, "token" | "contentType">, headers?: Record<string, string>): Headers {
+    const res = new Headers();
 
     if (contentType) {
-        headers.append('Content-Type', contentType)
+        res.append('Content-Type', contentType)
     }
 
     if (token) {
-        headers.append('Authorization', token)
+        res.append('Authorization', token)
     }
 
-    return headers
+    if (headers) {
+        for (const [key, value] of Object.entries(headers)) {
+            res.append(key, value)
+        }
+    }
+
+    return res
 }
 
-function buildUrl(url: string, queryParams?: Record<string, any>): string {
+function buildUrl(url: string, queryParams?: Record<string, ValueType>): string {
     const fullUrl = new URL(url, envVars.REACT_APP_API_URL);
 
     if (queryParams) {
@@ -39,7 +47,7 @@ function buildUrl(url: string, queryParams?: Record<string, any>): string {
     return fullUrl.toString()
 }
 
-function buildFetchOptions(body: object | FormData, options?: RequestOptions): RequestInit {
+function buildFetchOptions(body: BodyType, options?: RequestOptions): RequestInit {
     const {
         token,
         method = "GET",
@@ -49,10 +57,7 @@ function buildFetchOptions(body: object | FormData, options?: RequestOptions): R
 
     const fetchOptions: RequestInit = {
         method,
-        headers: {
-            ...buildFetchHeaders({token, contentType}),
-            ...(headers ?? {}),
-        },
+        headers: buildFetchHeaders({token, contentType}, headers)
     };
 
     if (body) {
@@ -66,7 +71,7 @@ function buildFetchOptions(body: object | FormData, options?: RequestOptions): R
 
 async function fetchData(url: string, options?: RequestOptions) {
     const {
-        responseType = 'Text',
+        responseType = 'Json',
         queryParams,
         body
     } = options || {};
@@ -93,13 +98,13 @@ async function fetchData(url: string, options?: RequestOptions) {
     }
 }
 
-const buildQuerystring = (properties: Record<string, any>) => '?' + Object.entries(properties).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&');
+const buildQuerystring = (properties: Record<string, string>) => '?' + Object.entries(properties).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&');
 
-function buildFormData(formData: Record<string, any>): FormData {
+function buildFormData(formData: Record<string, ValueType>): FormData {
     const data = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value)
+        data.append(key, String(value))
     })
 
     return data
