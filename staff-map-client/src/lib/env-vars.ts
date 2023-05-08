@@ -5,7 +5,7 @@ type EnvVars = {
     REACT_APP_API_URL: string;
 }
 
-function assertStringVar(key: string): string {
+function assertString(key: string): string {
     const value = process.env[key];
 
     if (isEmptyString(value)) {
@@ -16,8 +16,8 @@ function assertStringVar(key: string): string {
 }
 
 const envVars: EnvVars = {
-    GOOGLE_MAPS_API_KEY: assertStringVar('REACT_APP_GOOGLE_MAPS_API_KEY'),
-    REACT_APP_API_URL: assertStringVar('REACT_APP_API_URL')
+    GOOGLE_MAPS_API_KEY: assertString('REACT_APP_GOOGLE_MAPS_API_KEY'),
+    REACT_APP_API_URL: assertString('REACT_APP_API_URL')
 }
 
 export default envVars
