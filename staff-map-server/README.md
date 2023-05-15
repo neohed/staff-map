@@ -45,5 +45,5 @@ prisma studio
 ## Prisma Migrate
 
 ```shell
-npx prisma migrate dev --name name_of_stuff
+npx prisma migrate dev --name migration.sql
 ```
