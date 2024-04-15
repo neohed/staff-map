@@ -1,10 +1,9 @@
-import React from 'react';
-import {MapPage} from './modules/maps'
-import {Login} from "./modules/account/"
+import {MapPage} from './features/maps'
+import {Login} from "./features/account/"
 import {Routes, Route} from 'react-router-dom'
 import Menu from './components/Menu';
 import Home from "./components/Home";
-import {AuthRoute} from "./modules/account"
+import {AuthRoute} from "./features/account"
 import './App.css';
 /*
 import ShapesMap from "./components/ShapesMap";
