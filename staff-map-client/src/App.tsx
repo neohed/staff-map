@@ -1,6 +1,6 @@
 import React from 'react';
 import {MapPage} from './modules/maps'
-import {Login} from "./modules/account";
+import {Login} from "./modules/account/"
 import {Routes, Route} from 'react-router-dom'
 import Menu from './components/Menu';
 import Home from "./components/Home";
