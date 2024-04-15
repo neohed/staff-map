@@ -10,8 +10,8 @@ type Props = {
 }
 
 const AuthRoute: FC<Props> = ({ children }) => {
-    let {isAuthenticated} = useAuth();
-    let location = useLocation();
+    const {isAuthenticated} = useAuth();
+    const location = useLocation();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />
