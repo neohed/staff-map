@@ -1,6 +1,8 @@
 import {buildUrl, buildFetchOptions} from "../../../lib/fetch-helpers";
+import { ValueType } from "../../../lib/fetch-helpers";
 
 export interface LoginValues {
+    [key: string]: ValueType;
     email: string;
     password: string;
 }

@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import {MapProps} from "../modules/maps";
+import {MapProps} from "../features/maps";
 import PropTypes from 'prop-types'
 import {GoogleMap, BicyclingLayer, useJsApiLoader} from '@react-google-maps/api'
 import MapLoading from "./MapLoading";

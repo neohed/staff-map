@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import {NavLink} from 'react-router-dom'
-import {useAuth} from '../modules/account';
+import {useAuth} from '../features/account';
 import "./Menu.css"
 
 const Menu: FC = () => {

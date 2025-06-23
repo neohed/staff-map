@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import {buildUrl, buildFetchHeaders} from "./fetch-helpers";
-import { useAuth } from "../modules/account";
+import { useAuth } from "../features/account";
 
 function useFetch(url: string, skip: boolean = false) {
     const [data, setData] = useState({});

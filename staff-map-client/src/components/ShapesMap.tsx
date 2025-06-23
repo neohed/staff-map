@@ -1,5 +1,5 @@
 import type { ChangeEventHandler } from 'react'
-import {MapProps} from "../modules/maps";
+import {MapProps} from "../features/maps";
 import { memo, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {

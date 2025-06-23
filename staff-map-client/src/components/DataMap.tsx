@@ -1,7 +1,7 @@
 import { memo, useMemo, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {GoogleMap, Data, useJsApiLoader} from '@react-google-maps/api'
-import {MapProps} from "../modules/maps";
+import {MapProps} from "../features/maps";
 import envVars from "../lib/env-vars";
 import MapLoading from "./MapLoading";
 

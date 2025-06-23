@@ -2,7 +2,7 @@ import envVars from "./env-vars";
 
 export type HttpMethod = "GET" | "HEAD" | "POST" | "DELETE" | "PUT" | "PATCH";
 export type ResponseType = "Json" | "Text" | "Blob" | "ArrayBuffer";
-type ValueType = string | number | boolean | null | undefined;
+export type ValueType = string | number | boolean | null | undefined;
 export type BodyType = Record<string, ValueType> | FormData;
 
 export type RequestOptions = {
